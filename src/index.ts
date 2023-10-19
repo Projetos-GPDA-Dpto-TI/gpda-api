@@ -1,7 +1,7 @@
 function greeter(person: string) {
-    return "Hello, " + person;
-  }
-   
-  let user = "Jon Doe";
-   
+  return 'Hello, ' + person;
+}
+
+const user = 'John doe';
+
 console.log(greeter(user));
