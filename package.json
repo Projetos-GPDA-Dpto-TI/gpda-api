@@ -1,0 +1,23 @@
+{
+  "name": "gpda-api",
+  "version": "1.0.0",
+  "description": "Desenvolvendo API que será implementada ao gpda-web",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node dist/src/index.js"
+  },
+  "repository": "https://github.com/Projeto-Stratum/gpda-api.git",
+  "author": "Nicolas 'grecoww' Greco and Guilherme Longo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "module-alias": "^2.2.3",
+    "nodemailer": "^6.9.6"
+  },
+  "devDependencies": {
+    "@types/module-alias": "^2.0.3",
+    "@types/node": "^20.8.7",
+    "typescript": "^5.2.2"
+  }
+}
