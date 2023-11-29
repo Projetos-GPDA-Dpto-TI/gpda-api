@@ -1,7 +1,6 @@
-function greeter(person: string) {
-  return 'Hello, ' + person;
-}
+import { SetupServer } from './server';
 
-const user = 'John doe';
+const server = new SetupServer();
+server.init(3000);
 
-console.log(greeter(user));
+//fazendo a requisição no routes.http, o controller envia a mensagem corretamente
