@@ -3,6 +3,8 @@ import './util/module-alias';
 import bodyParser from 'body-parser';
 import { MessageController } from './controllers/mensageiro';
 import { Application } from 'express';
+import { DatabaseMemory } from './database-memory';
+import { UserController } from './controllers/users';
 
 export class SetupServer extends Server {
   constructor() {
@@ -23,8 +25,14 @@ export class SetupServer extends Server {
 
   private setupControllers(): void {
     const mensageiroController = new MessageController();
-    super.addControllers([mensageiroController]);
+    const usersController = new UserController
+
+    super.addControllers([mensageiroController, usersController]);
   }
+
+  // private setupDatabase(): void { //o ideal seria criar a database aqui e passar o objeto criado para o controller (pensar como fzr isso dps)
+  //   const database = new DatabaseMemory()
+  // }
 
   public getApp(): Application {
     return this.app;
