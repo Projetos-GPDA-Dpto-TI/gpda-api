@@ -1,40 +1,27 @@
-import { Server } from '@overnightjs/core';
-import './util/module-alias';
-import bodyParser from 'body-parser';
-import { MessageController } from './controllers/mensageiro';
-import { Application } from 'express';
-import { DatabaseMemory } from './database-memory';
-import { UserController } from './controllers/users';
+import express from 'express';
+import 'dotenv/config';
+import userController from './controllers/user';
 
-export class SetupServer extends Server {
+export class Server {
+  private readonly app: express.Application;
+  public PORT: number;
+
   constructor() {
-    super();
-  }
-
-  public init(port: number): void {
-    this.setupExpress();
+    this.app = express();
+    this.app.use(express.json());
     this.setupControllers();
-    this.app.listen(port, () => {
-      console.log(`Servidor rodando na porta ${port}`);
-    });
+    this.dbConnect();
+    this.PORT = Number(process.env.EXPRESS_PORT);
   }
 
-  private setupExpress(): void {
-    this.app.use(bodyParser.json());
+  public init() {
+    this.app.listen(this.PORT);
+    console.log(`Server listening on port ${this.PORT}`);
   }
 
-  private setupControllers(): void {
-    const mensageiroController = new MessageController();
-    const usersController = new UserController
-
-    super.addControllers([mensageiroController, usersController]);
+  private setupControllers() {
+    this.app.use('/user', userController);
   }
 
-  // private setupDatabase(): void { //o ideal seria criar a database aqui e passar o objeto criado para o controller (pensar como fzr isso dps)
-  //   const database = new DatabaseMemory()
-  // }
-
-  public getApp(): Application {
-    return this.app;
-  }
+  private dbConnect() {}
 }
