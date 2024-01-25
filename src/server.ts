@@ -1,6 +1,8 @@
 import express from 'express';
 import 'dotenv/config';
 import userController from './controllers/user';
+import dbConnect from '../infra/database';
+import { QueryResult } from 'pg';
 
 export class Server {
   private readonly app: express.Application;
@@ -10,11 +12,12 @@ export class Server {
     this.app = express();
     this.app.use(express.json());
     this.setupControllers();
-    this.dbConnect();
     this.PORT = Number(process.env.EXPRESS_PORT);
   }
 
-  public init() {
+  public async init() {
+    const res: QueryResult = await dbConnect('SELECT 1 + 1;');
+    console.log(res);
     this.app.listen(this.PORT);
     console.log(`Server listening on port ${this.PORT}`);
   }
@@ -22,6 +25,4 @@ export class Server {
   private setupControllers() {
     this.app.use('/user', userController);
   }
-
-  private dbConnect() {}
 }
