@@ -1,6 +1,6 @@
 import axios from 'axios';
 import 'dotenv/config';
-import dbConnect from '../infra/database';
+import query from '../infra/database';
 
 const PORT: number = Number(process.env.EXPRESS_PORT);
 
@@ -11,7 +11,7 @@ test('GET to /user/status should return the following json fixture', async () =>
   expect(response.data).toEqual({ status: 'success', version: '1.0.0' });
 });
 
-test('dbConnect query should return 2', async () => {
-  const res = await dbConnect('SELECT 1 + 1;');
-  expect(res).toBe(2);
+test('db query 1+1 should return 2', async () => {
+  const res = await query('SELECT 1 + 1;');
+  expect(res.rows[0]['?column?']).toBe(2);
 });

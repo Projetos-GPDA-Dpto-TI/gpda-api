@@ -9,13 +9,17 @@ const dbData = {
   port: Number(process.env.POSTGRES_PORT),
 };
 
-async function dbConnect(queryObject: string) {
-  //later it will be needed to detach connection and query actions
+async function query(queryObject: string) {
   const client = new Client(dbData);
-  await client.connect();
-  const res = await client.query(queryObject);
-  await client.end();
-  return res.rows[0]['?column?'];
+  try {
+    await client.connect();
+    const res = await client.query(queryObject);
+    return res;
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await client.end();
+  }
 }
 
-export default dbConnect;
+export default query;
