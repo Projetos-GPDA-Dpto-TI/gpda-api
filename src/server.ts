@@ -1,8 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import userController from './controllers/user';
-import query from '../infra/database';
-import { QueryResult } from 'pg';
+import statusController from './controllers/status';
 
 export class Server {
   private readonly app: express.Application;
@@ -21,6 +20,7 @@ export class Server {
   }
 
   private setupControllers() {
-    this.app.use('/user', userController);
+    this.app.use('/api/user', userController);
+    this.app.use('/api', statusController);
   }
 }

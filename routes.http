@@ -1,4 +1,4 @@
-GET http://localhost:3000/user/status
+GET http://localhost:3000/api/status
 
 
 ###

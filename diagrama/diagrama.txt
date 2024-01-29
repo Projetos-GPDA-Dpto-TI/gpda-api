@@ -30,18 +30,18 @@ Table project {
   updated_at timestamp
 }
 
+CREATE TABLE member (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR,
+    email VARCHAR,
+    name VARCHAR,
+    imageURL VARCHAR,
+    link VARCHAR,
+    role VARCHAR,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
 
-Table member {
-  id integer [primary key]
-  username varchar
-  email varchar
-  name varchar
-  imageURL varchar
-  link varchar
-  role varchar
-  created_at timestamp
-  updated_at timestamp
-}
 
 
 Ref: news.user_id > member.id // many-to-one
