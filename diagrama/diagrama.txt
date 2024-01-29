@@ -30,18 +30,18 @@ Table project {
   updated_at timestamp
 }
 
+//transformar id em UUID qdo em producao
 CREATE TABLE member (
     id SERIAL PRIMARY KEY,
-    username VARCHAR,
-    email VARCHAR,
-    name VARCHAR,
-    imageURL VARCHAR,
-    link VARCHAR,
-    role VARCHAR,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100),
+    image_url VARCHAR(255),
+    link VARCHAR(255),
+    role VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 
 Ref: news.user_id > member.id // many-to-one
