@@ -9,7 +9,9 @@ const dbData = {
   port: Number(process.env.POSTGRES_PORT),
 };
 
-async function query(queryObject: string | { text: string; values: string[] }) {
+export async function query(
+  queryObject: string | { text: string; values: string[] }
+) {
   //accepts string queries or parametrized queries in object type
   const client = new Client(dbData);
   console.log('Credenciais do Postgres:', {
@@ -31,5 +33,3 @@ async function query(queryObject: string | { text: string; values: string[] }) {
     await client.end();
   }
 }
-
-export default query;

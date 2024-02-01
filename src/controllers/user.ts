@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
-import query from '../../infra/database';
-import '../../infra/queries';
+import query from '../utils/queries';
+import * as database from '../../infra/database';
 
 const userController: Router = express.Router();
 
@@ -15,7 +15,7 @@ userController.get(
 userController.get(
   '/list',
   async (_req: Request, res: Response): Promise<void> => {
-    const response = await query('SELECT * FROM member;');
+    const response = await query.listAllUsers();
     res.status(200).json(response.rows);
   }
 );
@@ -26,16 +26,14 @@ userController.get(
   async (req: Request, res: Response): Promise<void> => {
     const userIdResult = req.query.id;
     const parsedUserIdResult = Number(userIdResult);
+    const userId = String(userIdResult);
+
     if (!userIdResult || isNaN(parsedUserIdResult)) {
       res.status(400).json({ error: 'Invalid or missing ID' });
       return;
     }
-    const userId = String(userIdResult);
 
-    const response = await query({
-      text: 'SELECT id, username, email, name, role FROM member WHERE id=$1;',
-      values: [userId],
-    });
+    const response = await query.listById(userId);
     res.status(200).json(response.rows);
   }
 );
@@ -44,14 +42,11 @@ userController.get(
 userController.get(
   '/list/byrole',
   async (req: Request, res: Response): Promise<void> => {
-    const userRole = req.query.role;
+    const userRoleResult = req.query.role;
+    const userRole = String(userRoleResult);
 
     //remember to make function to check if it is a valid role
-
-    const response = await query({
-      text: 'SELECT id, username, email, name, role FROM member WHERE role=$1;',
-      values: [String(userRole)],
-    });
+    const response = await query.listByRole(userRole);
     res.status(200).json(response.rows);
   }
 );
@@ -61,15 +56,14 @@ userController.post(
   async (req: Request, res: Response): Promise<void> => {
     const { username, email, name, role } = req.body;
     try {
-      await query({
-        text: 'INSERT INTO member (username, email, name, role) VALUES ($1, $2, $3, $4);',
-        values: [username, email, name, role],
-      });
-      const dbUserIdReponse = await query({
+      await query.signUser(username, email, name, role);
+
+      const dbUserIdResponse = await database.query({
         text: 'SELECT id FROM member WHERE username=$1;',
         values: [username],
       });
-      const dbUserId = dbUserIdReponse.rows[0].id;
+      const dbUserId = dbUserIdResponse.rows[0].id;
+
       res.status(201).json({
         message: 'member signed to db',
         member: { dbUserId, username, email, name, role },
@@ -85,15 +79,13 @@ userController.delete(
   '/delete',
   async (req: Request, res: Response): Promise<void> => {
     const userId = req.query.id;
+    const parsedUserId = Number(userId);
     if (!userId || isNaN(Number(userId))) {
       res.status(400).json({ error: 'Invalid or missing ID' });
       return;
     }
     try {
-      const response = await query({
-        text: 'DELETE FROM member WHERE id=$1;',
-        values: [String(userId)],
-      });
+      const response = query.deleleteUser(parsedUserId);
       res.send(response);
     } catch (err) {
       console.error(err);
@@ -102,11 +94,19 @@ userController.delete(
   }
 );
 
-//remember to assign the updates (old data -> new data) to a table in db
+interface Member {
+  id: number;
+  username: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
+//remember to assign the updates (old data -> new data) to a new table in db
 userController.put(
   '/update',
   async (req: Request, res: Response): Promise<void> => {
-    let { id, username, email, name, role } = req.body;
+    let { id, username, email, name, role }: Member = req.body;
 
     //checks if id is defined and a number
     if (!id || isNaN(id)) {
@@ -116,18 +116,14 @@ userController.put(
     const userId = String(id);
 
     //checks what data is not given in req.body and replace with the actual data in db
-    let dbUserData;
     if (
       username === undefined ||
       email === undefined ||
       name === undefined ||
       role === undefined
     ) {
-      const dbUserDataResult = await query({
-        text: 'SELECT username, email, name, role FROM member WHERE id=$1;',
-        values: [userId],
-      });
-      dbUserData = dbUserDataResult.rows[0];
+      const dbUserDataResult = await query.listById(userId);
+      var dbUserData = dbUserDataResult.rows[0];
 
       username = username === undefined ? dbUserData.username : username;
       email = email === undefined ? dbUserData.email : email;
@@ -137,10 +133,7 @@ userController.put(
 
     //starts to update member with the given data
     try {
-      await query({
-        text: 'UPDATE member SET username=$1, email=$2, name=$3, role=$4 WHERE id=$5;',
-        values: [username, email, name, role, id],
-      });
+      await query.updateUser(id, username, email, name, role);
       res.json({
         username: { old_username: dbUserData.username, new_username: username },
         email: { old_email: dbUserData.email, new_email: email },

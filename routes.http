@@ -3,7 +3,7 @@ GET http://localhost:3000/api/status
 
 ###
 
-GET http://localhost:3000/api/user/list/byrole?role=it agent
+GET http://localhost:3000/api/user/list
 
 ###
 
@@ -15,8 +15,8 @@ POST http://localhost:3000/api/user/sign
 Content-Type: application/json
 
 {
-    "username": "jdae",
-    "email": "johndoee@example.com",
+    "username": "jdaae",
+    "email": "joahndoee@example.com",
     "name": "John Doe",
     "role": "it agent"
 }
@@ -29,6 +29,5 @@ Content-Type: application/json
 {
     "id": "11",
     "name": "Jane Doe",
-    "email": "johndoe1337@example.com",
-    "role": "it agent"
+    "email": "jaaohndoe1337@example.com"
 }
