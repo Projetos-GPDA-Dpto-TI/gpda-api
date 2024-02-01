@@ -62,11 +62,11 @@ userController.post(
         text: 'SELECT id FROM member WHERE username=$1;',
         values: [username],
       });
-      const dbUserId = dbUserIdResponse.rows[0].id;
+      const id = dbUserIdResponse.rows[0].id;
 
       res.status(201).json({
         message: 'member signed to db',
-        member: { dbUserId, username, email, name, role },
+        member: { id, username, email, name, role },
       });
     } catch (err) {
       console.error(err);
@@ -85,8 +85,16 @@ userController.delete(
       return;
     }
     try {
-      const response = query.deleleteUser(parsedUserId);
-      res.send(response);
+      const response = await query.listById(String(userId));
+      console.log(response);
+      await query.deleleteUser(parsedUserId);
+      if (response.rows[0] === undefined) {
+        res.status(400).json({ error: 'Invalid or missing ID' });
+        return;
+      }
+      res.json({
+        deleted_user: response.rows[0],
+      });
     } catch (err) {
       console.error(err);
       res.sendStatus(500);
@@ -116,6 +124,7 @@ userController.put(
     const userId = String(id);
 
     //checks what data is not given in req.body and replace with the actual data in db
+    let dbUserData;
     if (
       username === undefined ||
       email === undefined ||
@@ -123,7 +132,7 @@ userController.put(
       role === undefined
     ) {
       const dbUserDataResult = await query.listById(userId);
-      var dbUserData = dbUserDataResult.rows[0];
+      dbUserData = dbUserDataResult.rows[0];
 
       username = username === undefined ? dbUserData.username : username;
       email = email === undefined ? dbUserData.email : email;
