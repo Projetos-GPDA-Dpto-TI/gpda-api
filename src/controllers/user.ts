@@ -87,9 +87,9 @@ userController.delete(
     try {
       const response = await query.listById(String(userId));
       console.log(response);
-      await query.deleleteUser(parsedUserId);
-      if (response.rows[0] === undefined) {
-        res.status(400).json({ error: 'Invalid or missing ID' });
+      await query.deleteUser(parsedUserId);
+      if (response.rowCount === 0) {
+        res.status(400).json({ error: 'Invalid ID' });
         return;
       }
       res.json({

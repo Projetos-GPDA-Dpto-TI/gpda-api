@@ -27,7 +27,7 @@ async function signUser(
   return response;
 }
 
-async function deleleteUser(userId: number) {
+async function deleteUser(userId: number) {
   const response = await database.query({
     text: 'DELETE FROM member WHERE id=$1;',
     values: [String(userId)],
@@ -62,7 +62,7 @@ async function listByRole(userRole: string) {
 export default {
   updateUser,
   signUser,
-  deleleteUser,
+  deleteUser,
   listAllUsers,
   listById,
   listByRole,
