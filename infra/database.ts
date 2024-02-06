@@ -9,10 +9,8 @@ const dbData = {
   port: Number(process.env.POSTGRES_PORT),
 };
 
-export async function query(
-  queryObject: string | { text: string; values: string[] }
-) {
-  //accepts string queries or parametrized queries in object type
+//manually set the parametrized query object type below
+async function query(queryObject: string | { text: string; values: string[] }) {
   const client = new Client(dbData);
 
   try {
@@ -26,3 +24,7 @@ export async function query(
     await client.end();
   }
 }
+
+export default Object.freeze({
+  query,
+});

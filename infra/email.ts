@@ -1,9 +1,8 @@
 import nodemailer from 'nodemailer';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const transporterConfig = {
   host: process.env.EMAIL_SMTP_HOST,
-  port: parseInt(process.env.EMAIL_SMTP_PORT),
+  port: Number(process.env.EMAIL_SMTP_PORT),
   secure: true,
   auth: {
     user: process.env.EMAIL_USER,

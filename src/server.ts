@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
-import userController from './controllers/user';
+import useractionsController from './controllers/useractions';
 import statusController from './controllers/status';
 
 export class Server {
@@ -20,7 +20,7 @@ export class Server {
   }
 
   private setupControllers() {
-    this.app.use('/api/user', userController);
+    this.app.use('/api/user', useractionsController);
     this.app.use('/api', statusController);
   }
 }
