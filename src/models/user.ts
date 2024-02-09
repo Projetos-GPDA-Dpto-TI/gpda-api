@@ -8,41 +8,54 @@ interface user {
   role: string;
 }
 
-async function listAllUsers() {
+async function listAllUsers(): Promise<user[]> {
   const response = await database.query('SELECT * FROM member;');
-  return response;
+  const userList = response.rows;
+  return userList;
 }
 
-async function listById(id: number) {
+async function listById(id: number): Promise<user> {
   validateId(id);
   const response = await database.query({
     text: 'SELECT id, username, email, name, role FROM member WHERE id=$1;',
     values: [String(id)],
   });
-  return response;
+  const userList = response.rows[0];
+  return userList;
 }
 
-async function listByRole(userRole: string) {
+async function listByRole(userRole: string): Promise<user[]> {
   //TODO: make function to check if it is a valid role
   const response = await database.query({
     text: 'SELECT id, username, email, name, role FROM member WHERE role=$1;',
     values: [userRole],
   });
-  return response;
+  const userList = response.rows;
+  return userList;
 }
 
-async function signUser(user: user) {
+async function signUser(user: user): Promise<user> {
   await validateUniqueUsername(user.username);
 
   const response = await database.query({
     text: 'INSERT INTO member (username, email, name, role) VALUES ($1, $2, $3, $4) RETURNING id;',
     values: [user.username, user.email, user.name, user.role],
   });
+
   const userId = response.rows[0].id;
-  return userId;
+
+  const member = {
+    id: userId,
+    username: user.username,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+  };
+
+  return member;
 }
 
-async function deleteUserById(id: number) {
+async function deleteUserById(id: number): Promise<user> {
   validateId(id);
   const response = await database.query({
     text: 'DELETE FROM member WHERE id=$1 RETURN id, username, email, name, role;',
@@ -51,13 +64,13 @@ async function deleteUserById(id: number) {
   if (response.rowCount === 0) {
     throw new Error('Invalid ID');
   }
-
-  return response;
+  const userinfo = response.rows[0];
+  return userinfo;
 }
 
-async function validateUniqueUsername(username: string) {
+async function validateUniqueUsername(username: string): Promise<void> {
   const query = {
-    text: 'SELECT username FROM users WHERE LOWER(username) = LOWER($1)',
+    text: 'SELECT username FROM member WHERE LOWER(username) = LOWER($1)',
     values: [username],
   };
 
@@ -68,15 +81,23 @@ async function validateUniqueUsername(username: string) {
   }
 }
 
-function validateId(id: number) {
+function validateId(id: number): void {
   if (!id || isNaN(id)) {
     throw new Error('Invalid or missing ID');
   }
 }
 
 //TODO: assign the updates (old data -> new data) to a new table in db
-async function updateUser(user: user) {
+async function updateUser(user: user): Promise<user> {
   validateId(user.id);
+
+  if (user.username) {
+    try {
+      await validateUniqueUsername(user.username);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   let { username, email, name, role } = user;
 
@@ -86,14 +107,12 @@ async function updateUser(user: user) {
     user.name === undefined ||
     user.role === undefined
   ) {
-    const dbUserDataResult = await listById(user.id);
-    const dbUserData = dbUserDataResult.rows[0];
+    const userinfo = await listById(user.id);
 
-    username =
-      user.username === undefined ? dbUserData.username : user.username;
-    email = user.email === undefined ? dbUserData.email : user.email;
-    name = user.name === undefined ? dbUserData.name : user.name;
-    role = user.role === undefined ? dbUserData.role : user.role;
+    username = user.username === undefined ? userinfo.username : user.username;
+    email = user.email === undefined ? userinfo.email : user.email;
+    name = user.name === undefined ? userinfo.name : user.name;
+    role = user.role === undefined ? userinfo.role : user.role;
   }
 
   const result = await database.query({
@@ -105,7 +124,7 @@ async function updateUser(user: user) {
     throw new Error('Invalid ID');
   }
 
-  return { username, email, name, role };
+  return { id: user.id, username, email, name, role };
 }
 
 export default Object.freeze({
