@@ -6,3 +6,5 @@ const newsletterController: Router = express.Router();
 //cadastrar email
 
 //deletar email
+
+export default newsletterController;

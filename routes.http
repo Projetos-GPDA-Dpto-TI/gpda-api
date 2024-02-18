@@ -7,7 +7,11 @@ GET http://localhost:3000/api/user/list
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=1
+GET http://localhost:3000/api/user/role/it%20agent
+
+###
+
+DELETE http://localhost:3000/api/user/delete?id=
 
 ###
 
@@ -15,8 +19,8 @@ POST http://localhost:3000/api/user/sign
 Content-Type: application/json
 
 {
-    "username": "jane1",
-    "email": "jane1@example.com",
+    "username": "jadoe",
+    "email": "janedoe@example.com",
     "name": "Jane Doe",
     "role": "it agent"
 }
@@ -27,8 +31,6 @@ PUT http://localhost:3000/api/user/update
 Content-Type: application/json
 
 {
-    "id": "4",
-    "name": "Davisss Doe",
-    "username": "dssdoe",
-    "email": "nic@example.com"
+    "id": "2",
+    "username": "jdoe"
 }
