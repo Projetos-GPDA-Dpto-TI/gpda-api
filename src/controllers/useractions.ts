@@ -28,6 +28,7 @@ useractionsController.get('/list/:id', async (req, res) => {
     if (err.message.includes('Invalid ID')) {
       return res.status(400).json({ Error: 'Invalid ID' });
     }
+    res.sendStatus(500);
   }
 });
 
@@ -38,7 +39,7 @@ useractionsController.get('/role/:role', async (req, res) => {
     const userList = await user.listByRole(userRole);
     res.status(200).json(userList);
   } catch (err) {
-    console.error(err);
+    res.sendStatus(500);
   }
 });
 

@@ -34,7 +34,7 @@ async function listById(id: number): Promise<user> {
 }
 
 async function listByRole(userRole: string): Promise<user[]> {
-  //TODO: make function to check if it is a valid role
+  validateRole(userRole);
   const response = await database.query({
     text: 'SELECT id, username, email, name, role FROM member WHERE role=$1;',
     values: [userRole],
@@ -45,6 +45,8 @@ async function listByRole(userRole: string): Promise<user[]> {
 
 async function signUser(user: user): Promise<user> {
   await validateUniqueUsername(user.username);
+  validateRole(user.role);
+
   const response = await database.query({
     text: 'INSERT INTO member (username, email, name, role) VALUES ($1, $2, $3, $4) RETURNING id;',
     values: [user.username, user.email, user.name, user.role],
@@ -95,9 +97,24 @@ function validateId(id: number): void {
   }
 }
 
-function validateUpdate(user: update_user) {
+function validateUpdate(user: update_user): void {
   if (!user.username && !user.email && !user.name && !user.role) {
     throw new Error('It is required at least 1 modification to update user');
+  }
+}
+
+function validateRole(userRole: user['role']): void {
+  const allowedRoles = [
+    'Eletrônica',
+    'Pesquisa',
+    'Estruturas',
+    'Marketing',
+    'Administração',
+    'TI',
+  ];
+
+  if (!allowedRoles.includes(userRole)) {
+    throw new Error(`Invalid or missing Role: ${userRole}`);
   }
 }
 
@@ -105,9 +122,8 @@ function validateUpdate(user: update_user) {
 async function updateUser(user: update_user | any): Promise<any> {
   validateId(user.id);
   validateUpdate(user);
-  if (user.username !== undefined) {
-    await validateUniqueUsername(user.username);
-  }
+  if (user.username) await validateUniqueUsername(user.username);
+  if (user.role) validateRole(user.role);
 
   let updatedUsername, updatedEmail, updatedName, updatedRole;
   let oldUserinfo;
@@ -139,9 +155,7 @@ async function updateUser(user: update_user | any): Promise<any> {
       ],
     });
   } catch (err) {
-    if (err) {
-      throw new Error('Invalid or missing ID');
-    }
+    if (err) throw new Error('Internal Server Error');
   }
 
   return {

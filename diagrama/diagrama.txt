@@ -2,42 +2,14 @@
 // Docs: https://dbml.dbdiagram.io/docs
 
 
-
-Table news {
-  id integer [primary key]
-  title varchar
-  description varchar
-  body text [note: 'Content of the post']
-  link varchar
-  category varchar
-  user_id integer
-  status varchar
-  imageURL varchar
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table project {
-  id integer [primary key]
-  title varchar
-  description varchar
-  body text [note: 'Content of the post']
-  link varchar
-  category varchar
-  status varchar
-  imageURL varchar
-  created_at timestamp
-  updated_at timestamp
-}
-
-//transformar id em UUID qdo em producao
+//Transform ID to UUID?
 CREATE TABLE member (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(100),
+    password_hash VARCHAR(255) NOT NULL,
     image_url VARCHAR(255),
-    link VARCHAR(255),
     role VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -46,6 +18,28 @@ CREATE TABLE member (
 CREATE TABLE newsletter (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE news (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR,
+    description VARCHAR,
+    body_text TEXT,
+    user_id INTEGER,
+    imageURL VARCHAR,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE project (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR,
+    description VARCHAR,
+    body TEXT,
+    progression_status INTEGER CHECK (progression_status >= 0 AND progression_status <= 100),
+    imageURL VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
