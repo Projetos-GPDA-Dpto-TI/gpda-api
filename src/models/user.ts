@@ -105,7 +105,7 @@ function validateUpdate(user: update_user): void {
 
 function validateRole(userRole: user['role']): void {
   const allowedRoles = [
-    'Eletrônica',
+    'Eletronica',
     'Pesquisa',
     'Estruturas',
     'Marketing',
