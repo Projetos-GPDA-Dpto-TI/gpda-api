@@ -22,7 +22,7 @@ Content-Type: application/json
     "username": "jadoe",
     "email": "janedoe@example.com",
     "name": "Jane Doe",
-    "role": "it agent"
+    "role": "TI"
 }
 
 ###
