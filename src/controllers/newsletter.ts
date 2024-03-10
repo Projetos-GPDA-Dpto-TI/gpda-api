@@ -2,7 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import 'dotenv/config';
 
 import email from '../../infra/email';
-import news from '../models/news';
+import news from '../models/newsletter';
 
 const newsletterController: Router = express.Router();
 
@@ -16,7 +16,7 @@ newsletterController.post('/sign', (req, res) => {
     from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
     to: userEmail,
     subject: 'GPDA Newsletter',
-    text: 'Agora você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
+    text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
   });
   res.status(200).json(signEmailResponse);
 });
