@@ -7,11 +7,11 @@ GET http://localhost:3000/api/user/list
 
 ###
 
-GET http://localhost:3000/api/user/role/it%20agent
+GET http://localhost:3000/api/user/role/TI
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=
+DELETE http://localhost:3000/api/user/delete?id=2
 
 ###
 
@@ -33,4 +33,12 @@ Content-Type: application/json
 {
     "id": "2",
     "username": "jdoe"
+}
+
+###
+
+POST http://localhost:3000/api/newsletter/sign
+
+{
+  "email": "jdoe@example.com"
 }
