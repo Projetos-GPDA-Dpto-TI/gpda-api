@@ -3,6 +3,7 @@ import 'dotenv/config';
 import useractionsController from './controllers/useractions';
 import statusController from './controllers/status';
 import newsletterController from './controllers/newsletter';
+import migrationsController from './controllers/migrations';
 
 export class Server {
   private readonly app: express.Application;
@@ -24,5 +25,6 @@ export class Server {
     this.app.use('/api/user', useractionsController);
     this.app.use('/api', statusController);
     this.app.use('/api/newsletter', newsletterController);
+    this.app.use('/api', migrationsController);
   }
 }
