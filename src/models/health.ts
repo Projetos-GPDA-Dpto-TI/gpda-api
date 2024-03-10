@@ -15,11 +15,9 @@ async function dbHealth() {
   const dbMaxConnections = dbMaxConnectionsResult.rows[0].max_connections;
 
   const result = {
-    database: {
-      version: dbVersion,
-      max_connections: parseInt(dbMaxConnections),
-      opened_connections: dbOpenedConnections,
-    },
+    version: dbVersion,
+    max_connections: parseInt(dbMaxConnections),
+    opened_connections: dbOpenedConnections,
   };
 
   return result;
