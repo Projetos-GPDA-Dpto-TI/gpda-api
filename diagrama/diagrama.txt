@@ -17,7 +17,7 @@ CREATE TABLE member (
 
 CREATE TABLE newsletter (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,7 +27,7 @@ CREATE TABLE news (
     title VARCHAR,
     description VARCHAR,
     body_text TEXT,
-    user_id INTEGER,
+    owner_id INTEGER,
     imageURL VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

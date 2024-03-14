@@ -14,13 +14,13 @@ async function dbHealth() {
   const dbMaxConnectionsResult = await database.query('SHOW max_connections;');
   const dbMaxConnections = dbMaxConnectionsResult.rows[0].max_connections;
 
-  const result = {
+  const dbHealthInfo = {
     version: dbVersion,
     max_connections: parseInt(dbMaxConnections),
     opened_connections: dbOpenedConnections,
   };
 
-  return result;
+  return dbHealthInfo;
 }
 
 export default Object.freeze({
