@@ -1,8 +1,6 @@
-import express, { Request, Response, Router } from 'express';
+import express, { Router } from 'express';
 import 'dotenv/config';
-
-import email from '../../infra/email';
-import news from '../models/newsletter';
+import newsletter from '../models/newsletter';
 
 const newsletterController: Router = express.Router();
 
@@ -10,17 +8,18 @@ const newsletterController: Router = express.Router();
 newsletterController.post('/sign', (req, res) => {
   const userEmail = req.body.email;
 
-  const signEmailResponse = news.signEmail(userEmail);
+  const signEmailResponse = newsletter.signEmail(userEmail);
 
-  email.send({
-    from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
-    to: userEmail,
-    subject: 'GPDA Newsletter',
-    text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
-  });
   res.status(200).json(signEmailResponse);
 });
 
-//deletar email
+//deleter email
+newsletterController.delete('/delete', (req, res) => {
+  const userEmail = req.body.email;
+
+  const deleteEmailResponse = newsletter.deleteEmail(userEmail);
+
+  res.status(200).json(deleteEmailResponse);
+});
 
 export default newsletterController;

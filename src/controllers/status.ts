@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import 'dotenv/config';
 
-import health from '../models/health';
+import health from '../models/healthstatus';
 
 const statusController: Router = express.Router();
 
