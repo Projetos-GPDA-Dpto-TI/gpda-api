@@ -56,6 +56,9 @@ useractionsController.post('/sign', async (req, res) => {
     if (err.message.includes('This username has already been taken')) {
       return res.status(400).json({ Error: 'Username already taken' });
     }
+    if (err.message.includes('Email already being used')) {
+      return res.status(400).json({ Error: 'Email already being used' });
+    }
     res.sendStatus(500);
   }
 });
@@ -110,6 +113,10 @@ useractionsController.put('/update', async (req, res) => {
     }
     res.sendStatus(500);
   }
+});
+
+useractionsController.all('*', (_, res) => {
+  res.sendStatus(404);
 });
 
 export default useractionsController;

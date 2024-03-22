@@ -32,7 +32,6 @@ async function send({ from, to, subject, text }: emailsender) {
     console.log('email sent');
   } catch (err) {
     console.error(err);
-    throw err;
   }
 }
 

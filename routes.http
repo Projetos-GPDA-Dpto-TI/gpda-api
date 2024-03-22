@@ -19,10 +19,10 @@ POST http://localhost:3000/api/user/sign
 Content-Type: application/json
 
 {
-    "username": "jadoe",
-    "email": "janedoe@example.com",
+    "username": "joedoe111",
+    "email": "janedoe1111@example.com",
     "name": "Jane Doe",
-    "role": "TI"
+    "role": "Marketing"
 }
 
 ###
@@ -31,14 +31,23 @@ PUT http://localhost:3000/api/user/update
 Content-Type: application/json
 
 {
-    "id": "2",
-    "username": "jdoe"
+    "id": "1",
+    "role": "Marketing"
 }
 
 ###
 
 POST http://localhost:3000/api/newsletter/sign
+Content-Type: application/json
 
 {
   "email": "jdoe@example.com"
 }
+
+###
+
+GET http://localhost:3000/api/newsletter/list
+
+###
+
+GET http://localhost:3000/api/migrations

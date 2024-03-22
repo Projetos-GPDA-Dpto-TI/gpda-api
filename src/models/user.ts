@@ -45,6 +45,7 @@ async function listByRole(userRole: string): Promise<user[]> {
 
 async function signUser(user: user): Promise<user> {
   await validateUniqueUsername(user.username);
+  await validateUniqueEmail(user.email);
   validateRole(user.role);
 
   const response = await database.query({
@@ -87,6 +88,19 @@ async function validateUniqueUsername(username: string): Promise<void> {
 
   if (response.rowCount > 0) {
     throw new Error('This username has already been taken');
+  }
+}
+
+async function validateUniqueEmail(email: string): Promise<void> {
+  const query = {
+    text: 'SELECT email FROM member WHERE LOWER(email) = LOWER($1)',
+    values: [email],
+  };
+
+  const response = await database.query(query);
+
+  if (response.rowCount > 0) {
+    throw new Error('Email already being used');
   }
 }
 

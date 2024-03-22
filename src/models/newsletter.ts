@@ -7,34 +7,41 @@ import email from '../../infra/email';
 
 async function signEmail(userEmail: string): Promise<object> {
   const databaseResponse = await database.query({
-    text: 'INSERT INTO newsletter (email) VALUES $1 RETURNING email;',
+    text: 'INSERT INTO newsletter (email) VALUES ($1) RETURNING email;',
     values: [userEmail],
   });
-  const parsedResponse = databaseResponse.rows[0];
+  const parsedResponse = databaseResponse.rows[0].email;
 
-  email.send({
-    from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
-    to: userEmail,
-    subject: 'GPDA Newsletter',
-    text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
-  });
+  try {
+    email.send({
+      from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
+      to: userEmail,
+      subject: 'GPDA Newsletter',
+      text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
+    });
+  } catch (err) {
+    console.error(err);
+  }
 
   return { signed_email: parsedResponse };
 }
 
 async function deleteEmail(userEmail: string): Promise<object> {
   const databaseResponse = await database.query({
-    text: 'DELETE FROM newsletter WHERE email=$1 RETURNIN email;',
+    text: 'DELETE FROM newsletter WHERE email=$1 RETURNING email;',
     values: [userEmail],
   });
   const parsedResponse = databaseResponse.rows[0];
-
-  email.send({
-    from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
-    to: userEmail,
-    subject: 'GPDA Newsletter',
-    text: 'Cancelamento da newsletter confirmado. Agora seu e-mail estará de fora dos nossos serviços.',
-  });
+  try {
+    email.send({
+      from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
+      to: userEmail,
+      subject: 'GPDA Newsletter',
+      text: 'Cancelamento da newsletter confirmado. Agora seu e-mail estará de fora dos nossos serviços.',
+    });
+  } catch (err) {
+    console.error(err);
+  }
 
   return { deleted_email: parsedResponse };
 }

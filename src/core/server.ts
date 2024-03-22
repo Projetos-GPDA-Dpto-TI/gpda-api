@@ -8,7 +8,7 @@ import migrationsController from '../controllers/migrations';
 import newsController from '../controllers/news';
 
 export class Server {
-  private readonly app: express.Application;
+  public readonly app: express.Application;
   public PORT: number;
 
   constructor() {
