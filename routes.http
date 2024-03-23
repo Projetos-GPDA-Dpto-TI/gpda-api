@@ -11,7 +11,7 @@ GET http://localhost:3000/api/user/role/TI
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=2
+DELETE http://localhost:3000/api/user/delete?id=1
 
 ###
 
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/newsletter/sign
+POST http://localhost:3000/api/newsletter/add
 Content-Type: application/json
 
 {
@@ -47,6 +47,15 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/api/newsletter/list
+
+###
+
+DELETE http://localhost:3000/api/newsletter/remove
+Content-Type: application/json
+
+{
+  "email": "johndoe@example.com"
+}
 
 ###
 

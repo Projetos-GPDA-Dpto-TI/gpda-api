@@ -52,7 +52,7 @@ async function getEmailList(): Promise<any> {
   );
 
   const parsedResponse = databaseResponse.rows;
-  return { emailList: parsedResponse };
+  return { email_list: parsedResponse };
 }
 
 export default Object.freeze({ signEmail, deleteEmail, getEmailList });

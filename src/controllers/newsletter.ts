@@ -5,33 +5,42 @@ import newsletter from '../models/newsletter';
 const newsletterController: Router = express.Router();
 
 //cadastrar email
-newsletterController.post('/sign', async (req, res) => {
-  const userEmail = req.body.email;
+newsletterController.post('/add', async (req, res) => {
   try {
-    const signEmailResponse = await newsletter.signEmail(userEmail);
-    res.status(200).json(signEmailResponse);
-  } catch (error) {
-    res.sendStatus(500);
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json('Invalid request');
+    }
+    const signEmailResponse = await newsletter.signEmail(email);
+    return res.status(200).json(signEmailResponse);
+  } catch (err) {
+    console.error('Error adding subscriber:', err);
+    return res.sendStatus(500);
   }
 });
 
 //deleter email
-newsletterController.delete('/delete', async (req, res) => {
-  const userEmail = req.body.email;
+newsletterController.delete('/remove', async (req, res) => {
   try {
-    const deleteEmailResponse = await newsletter.deleteEmail(userEmail);
-    res.status(200).json(deleteEmailResponse);
-  } catch (error) {
-    res.sendStatus(500);
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json('Invalid request');
+    }
+    const deleteEmailResponse = await newsletter.deleteEmail(email);
+    return res.status(200).json(deleteEmailResponse);
+  } catch (err) {
+    console.error('Error removing subscriber:', err);
+    return res.sendStatus(500);
   }
 });
 
 newsletterController.get('/list', async (req, res) => {
   try {
     const emailList = await newsletter.getEmailList();
-    res.status(200).json(emailList);
-  } catch (error) {
-    res.sendStatus(500);
+    return res.status(200).json(emailList);
+  } catch (err) {
+    console.error('Error getting newsletter email list:', err);
+    return res.sendStatus(500);
   }
 });
 
