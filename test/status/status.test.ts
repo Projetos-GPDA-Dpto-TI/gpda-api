@@ -1,4 +1,3 @@
-import axios from 'axios';
 import 'dotenv/config';
 
 test('GET to /api/v1/status should return 200', async () => {

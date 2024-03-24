@@ -1,4 +1,4 @@
-import database from '../../infra/database';
+import database from '../../infra/services/database';
 
 interface user {
   id: number;
@@ -19,7 +19,6 @@ interface update_user {
 async function listAllUsers(): Promise<user[]> {
   const response = await database.query('SELECT * FROM member;');
   const userList = response.rows;
-  //usar o [0]?
   return userList;
 }
 

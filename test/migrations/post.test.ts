@@ -1,4 +1,4 @@
-import database from '../../infra/database';
+import database from '../../infra/services/database';
 import 'dotenv/config';
 
 beforeAll(cleanDatabase);
@@ -11,7 +11,7 @@ async function databaseMigrationsRows() {
   try {
     const response = await database.query('SELECT * FROM pgmigrations');
     return response.rowCount;
-  } catch (error) {
+  } catch (err) {
     return undefined;
   }
 }

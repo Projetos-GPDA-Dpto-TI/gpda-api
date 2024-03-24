@@ -1,5 +1,5 @@
-import database from '../../infra/database';
-import email from '../../infra/email';
+import database from '../../infra/services/database';
+import email from '../../infra/services/email';
 
 //todo: function to validate unique email
 //todo: function to validate email form in client-side
@@ -20,7 +20,7 @@ async function signEmail(userEmail: string): Promise<object> {
       text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
     });
   } catch (err) {
-    console.error(err);
+    console.error('Error sending email', err);
   }
 
   return { signed_email: parsedResponse };

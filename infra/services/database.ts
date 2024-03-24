@@ -19,7 +19,6 @@ async function query(queryObject: string | { text: string; values: string[] }) {
     const res = await client.query(queryObject);
     return res;
   } catch (err) {
-    console.error(err);
     throw err;
   } finally {
     await client.end();

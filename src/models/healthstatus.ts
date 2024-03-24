@@ -1,4 +1,4 @@
-import database from '../../infra/database';
+import database from '../../infra/services/database';
 
 async function dbHealth() {
   const dbVersionResult = await database.query('SHOW server_version;');
