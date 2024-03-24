@@ -15,7 +15,7 @@ migrationsController.get('/migrations', async (req, res) => {
     verbose: true,
     migrationsTable: 'pgmigrations',
   });
-  res.status(200).json([migrationResponse]);
+  res.status(200).json(migrationResponse);
 });
 
 migrationsController.post('/migrations', async (req, res) => {
@@ -27,7 +27,7 @@ migrationsController.post('/migrations', async (req, res) => {
     verbose: true,
     migrationsTable: 'pgmigrations',
   });
-  res.status(200).json([migrationResponse]);
+  res.status(200).json(migrationResponse);
 });
 
 migrationsController.all('/migrations', (req, res) => {
