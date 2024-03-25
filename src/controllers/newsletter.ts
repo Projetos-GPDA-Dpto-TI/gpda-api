@@ -5,7 +5,7 @@ import newsletter from '../models/newsletter';
 const newsletterController: Router = express.Router();
 
 //cadastrar email
-newsletterController.post('/add', async (req, res) => {
+newsletterController.post('/subscribe', async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -20,7 +20,7 @@ newsletterController.post('/add', async (req, res) => {
 });
 
 //deleter email
-newsletterController.delete('/remove', async (req, res) => {
+newsletterController.delete('/unsubscribe', async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {

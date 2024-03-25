@@ -29,13 +29,16 @@ const emailData = {
 
 test('Add email to newsletter table', async () => {
   expect(await retrieveEmail()).toBeUndefined();
-  const response = await fetch('http://localhost:3000/api/newsletter/add', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(emailData),
-  });
+  const response = await fetch(
+    'http://localhost:3000/api/newsletter/subscribe',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailData),
+    }
+  );
 
   expect(response.status).toBe(200);
   expect(await retrieveEmail()).toBe(emailData.email);
@@ -43,13 +46,16 @@ test('Add email to newsletter table', async () => {
 
 test('Remove email on newsletter table', async () => {
   expect(await retrieveEmail()).toBe(emailData.email);
-  const response = await fetch('http://localhost:3000/api/newsletter/remove', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(emailData),
-  });
+  const response = await fetch(
+    'http://localhost:3000/api/newsletter/unsubscribe',
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailData),
+    }
+  );
 
   expect(response.status).toBe(200);
   expect(await retrieveEmail()).toBeUndefined();

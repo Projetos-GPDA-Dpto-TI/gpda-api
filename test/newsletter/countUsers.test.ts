@@ -21,13 +21,16 @@ const emailData = {
 };
 
 async function addEmail(emailData: object) {
-  const response = await fetch('http://localhost:3000/api/newsletter/add', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(emailData),
-  });
+  const response = await fetch(
+    'http://localhost:3000/api/newsletter/subscribe',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailData),
+    }
+  );
   return response;
 }
 
