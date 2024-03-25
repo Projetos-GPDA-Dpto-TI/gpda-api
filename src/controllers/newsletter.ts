@@ -44,4 +44,14 @@ newsletterController.get('/list', async (req, res) => {
   }
 });
 
+newsletterController.get('/count', async (req, res) => {
+  try {
+    const userCount = await newsletter.getUserCount();
+    return res.status(200).json(userCount);
+  } catch (err) {
+    console.error('Error on userCount:', err);
+    return res.sendStatus(500);
+  }
+});
+
 export default newsletterController;

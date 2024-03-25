@@ -55,4 +55,18 @@ async function getEmailList(): Promise<any> {
   return { email_list: parsedResponse };
 }
 
-export default Object.freeze({ signEmail, deleteEmail, getEmailList });
+async function getUserCount(): Promise<any> {
+  const databaseReponse = await database.query(
+    'SELECT count(1) as num FROM newsletter;'
+  );
+
+  const parsedResponse = parseInt(databaseReponse.rows[0]['num']);
+  return { user_count: parsedResponse };
+}
+
+export default Object.freeze({
+  signEmail,
+  deleteEmail,
+  getEmailList,
+  getUserCount,
+});
