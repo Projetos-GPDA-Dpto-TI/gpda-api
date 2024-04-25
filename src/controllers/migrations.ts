@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express';
-import 'dotenv/config';
+
 import { join } from 'node:path';
 
 import migrationRunner from 'node-pg-migrate';

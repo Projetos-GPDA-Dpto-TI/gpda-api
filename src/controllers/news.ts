@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-import 'dotenv/config';
 
 import news from '../models/news';
 

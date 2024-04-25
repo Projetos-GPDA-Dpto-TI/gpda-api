@@ -1,5 +1,7 @@
 import express from 'express';
+
 import 'dotenv/config';
+import 'dotenv-expand/config';
 
 import useractionsController from '../controllers/useractions';
 import statusController from '../controllers/status';

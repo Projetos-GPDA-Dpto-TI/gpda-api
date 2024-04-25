@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 test('GET to /api/v1/status should return 200', async () => {
   const response = await fetch('http://localhost:3000/api/status');
   expect(response.status).toBe(200);

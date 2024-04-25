@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-import 'dotenv/config';
 import newsletter from '../models/newsletter';
 
 const newsletterController: Router = express.Router();

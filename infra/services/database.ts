@@ -1,5 +1,4 @@
 import { Client } from 'pg';
-import 'dotenv/config';
 
 const dbData = {
   user: process.env.POSTGRES_USER,
@@ -7,7 +6,7 @@ const dbData = {
   database: process.env.POSTGRES_DB,
   password: process.env.POSTGRES_PASSWORD,
   port: Number(process.env.POSTGRES_PORT),
-  ssl: process.env.NODE_ENV === 'development' ? true : false,
+  ssl: getSSLValues(),
 };
 
 //manually set the parametrized query object type below
@@ -23,6 +22,16 @@ async function query(queryObject: string | { text: string; values: string[] }) {
   } finally {
     await client.end();
   }
+}
+
+function getSSLValues() {
+  if (process.env.POSTGRES_CA) {
+    return {
+      ca: process.env.POSTGRES_CA,
+    };
+  }
+
+  return process.env.NODE_ENV === 'production' ? true : false;
 }
 
 export default Object.freeze({

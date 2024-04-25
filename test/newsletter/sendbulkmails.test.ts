@@ -1,5 +1,4 @@
 import database from '../../infra/services/database';
-import 'dotenv/config';
 import newsletter from '../../src/models/newsletter';
 
 beforeAll(cleanDatabase);

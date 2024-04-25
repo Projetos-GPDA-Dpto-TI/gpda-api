@@ -1,5 +1,4 @@
 import express, { Request, Response, Router } from 'express';
-import 'dotenv/config';
 
 import health from '../models/healthstatus';
 
