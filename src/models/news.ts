@@ -41,27 +41,31 @@ async function listNewsByOwner(owner_id: string) {
 }
 
 //todo: how news will be shown on email??
-async function publicateInNewsletter(
+async function notificateInNewsletter(
   title: string,
   description: string,
-  body_text: string,
-  owner_id: string,
+  bodyText: string,
+  ownerId: string,
   imageURL: string
 ) {
-  const emailList = await newsletter.getEmailList();
-
-  emailList.forEach((emailAddress: string) => {
-    email.send({
-      from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
-      to: emailAddress,
-      subject: 'GPDA Newsletter',
-      text: title,
-    });
-  });
+  try {
+    const { email_list: emailList } = await newsletter.getEmailList();
+    for (const emailAddress of emailList) {
+      await email.send({
+        from: { name: 'GPDA', address: 'suporte@gpdaufabc.com.br' },
+        to: emailAddress.email,
+        subject: 'GPDA Newsletter: ' + title,
+        text: `${title}\n\n${description}\n\n${bodyText}`,
+      });
+    }
+  } catch (error) {
+    console.error('Error sending newsletter:', error);
+  }
 }
+
 export default Object.freeze({
   publicateNews,
   deleteNews,
   listNewsByOwner,
-  publicateInNewsletter,
+  notificateInNewsletter,
 });

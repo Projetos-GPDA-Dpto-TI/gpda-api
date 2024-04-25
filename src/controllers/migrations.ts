@@ -6,26 +6,24 @@ import migrationRunner from 'node-pg-migrate';
 
 const migrationsController: Router = express.Router();
 
+const migrationData = {
+  databaseUrl: process.env.DATABASE_URL,
+  dryRun: true,
+  dir: join('infra', 'migrations'),
+  direction: 'up',
+  verbose: true,
+  migrationsTable: 'pgmigrations',
+};
+
 migrationsController.get('/migrations', async (req, res) => {
-  const migrationResponse = await migrationRunner({
-    databaseUrl: process.env.DATABASE_URL,
-    dryRun: true,
-    dir: join('infra', 'migrations'),
-    direction: 'up',
-    verbose: true,
-    migrationsTable: 'pgmigrations',
-  });
+  const migrationResponse = await migrationRunner(migrationData);
   res.status(200).json(migrationResponse);
 });
 
 migrationsController.post('/migrations', async (req, res) => {
   const migrationResponse = await migrationRunner({
-    databaseUrl: process.env.DATABASE_URL,
+    ...migrationData,
     dryRun: false,
-    dir: join('infra', 'migrations'),
-    direction: 'up',
-    verbose: true,
-    migrationsTable: 'pgmigrations',
   });
   res.status(200).json(migrationResponse);
 });

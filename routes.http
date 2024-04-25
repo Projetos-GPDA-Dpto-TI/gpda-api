@@ -41,7 +41,7 @@ POST http://localhost:3000/api/newsletter/subscribe
 Content-Type: application/json
 
 {
-  "email": "jdoe@example.com"
+  "email": "jdoe2@example.com"
 }
 
 ###
@@ -59,4 +59,17 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/migrations
+POST http://localhost:3000/api/migrations
+
+###
+
+POST http://localhost:3000/api/newsletter/sendbulk
+Content-Type: application/json
+
+{
+  "title": "TESTE",
+  "description": "Isto é um teste",
+  "body_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus blandit lectus eu luctus. Praesent ac posuere tellus. Mauris sagittis vitae orci vel tincidunt. Etiam ut arcu ac risus molestie mattis. Etiam a tellus dolor. Mauris eget efficitur ex. Aliquam condimentum ac nulla non varius.",
+  "owner_id": "1",
+  "imageURL": "..."
+}

@@ -17,7 +17,8 @@ newsController.post('/publicate', async (req, res) => {
     imageURL
   );
 
-  await news.publicateInNewsletter(
+  await news.notificateInNewsletter(
+    //usado para notificar que uma noticia nova foi cadastrada no site gpda
     title,
     description,
     body_text,

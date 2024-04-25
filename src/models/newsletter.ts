@@ -14,7 +14,7 @@ async function signEmail(userEmail: string): Promise<object> {
 
   try {
     email.send({
-      from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
+      from: { name: 'GPDA', address: 'suporte@gpdaufabc.com.br' },
       to: userEmail,
       subject: 'GPDA Newsletter',
       text: 'Você está pronto para acompanhar a newsletter oficial da GPDA! Agora é só aguardar a próxima publicação.',
@@ -34,7 +34,7 @@ async function deleteEmail(userEmail: string): Promise<object> {
   const parsedResponse = databaseResponse.rows[0];
   try {
     email.send({
-      from: { name: 'GPDA', address: 'naoresponda@gpda.com.br' },
+      from: { name: 'GPDA', address: 'suporte@gpdaufabc.com.br' },
       to: userEmail,
       subject: 'GPDA Newsletter',
       text: 'Cancelamento da newsletter confirmado. Agora seu e-mail estará de fora dos nossos serviços.',
@@ -64,9 +64,32 @@ async function getUserCount(): Promise<any> {
   return { user_count: parsedResponse };
 }
 
+async function publicateInNewsletter(
+  title: string,
+  description: string,
+  bodyText: string,
+  ownerId: string,
+  imageURL: string
+) {
+  try {
+    const { email_list: emailList } = await getEmailList();
+    for (const emailAddress of emailList) {
+      await email.send({
+        from: { name: 'GPDA', address: 'suporte@gpdaufabc.com.br' },
+        to: emailAddress.email,
+        subject: 'GPDA Newsletter: ' + title,
+        text: `${title}\n\n${description}\n\n${bodyText}`,
+      });
+    }
+  } catch (error) {
+    console.error('Error sending newsletter:', error);
+  }
+}
+
 export default Object.freeze({
   signEmail,
   deleteEmail,
   getEmailList,
   getUserCount,
+  publicateInNewsletter,
 });

@@ -45,11 +45,31 @@ newsletterController.get('/list', async (req, res) => {
 });
 
 newsletterController.get('/count', async (req, res) => {
+  //will be used to display on site the number of subscribers
   try {
     const userCount = await newsletter.getUserCount();
     return res.status(200).json(userCount);
   } catch (err) {
     console.error('Error on userCount:', err);
+    return res.sendStatus(500);
+  }
+});
+
+newsletterController.post('/sendbulk', async (req, res) => {
+  const { title, description, body_text, owner_id, imageURL } = req.body;
+
+  try {
+    await newsletter.publicateInNewsletter(
+      title,
+      description,
+      body_text,
+      owner_id,
+      imageURL
+    );
+
+    return res.status(200);
+  } catch (err) {
+    console.error('Error on sendbulk:', err);
     return res.sendStatus(500);
   }
 });
