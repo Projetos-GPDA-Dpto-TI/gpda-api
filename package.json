@@ -24,7 +24,6 @@
   "author": "Nicolas 'grecoww' Greco and Guilherme 'Alkoarism' Longo",
   "license": "MIT",
   "dependencies": {
-    "@types/bcrypt": "^5.0.2",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",

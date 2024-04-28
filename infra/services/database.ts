@@ -11,10 +11,9 @@ const dbData = {
 
 //manually set the parametrized query object type below
 async function query(queryObject: string | { text: string; values: string[] }) {
-  const client = new Client(dbData);
-
+  let client;
   try {
-    await client.connect();
+    client = await getNewCLient();
     const res = await client.query(queryObject);
     return res;
   } catch (err) {
@@ -22,6 +21,13 @@ async function query(queryObject: string | { text: string; values: string[] }) {
   } finally {
     await client.end();
   }
+}
+
+async function getNewCLient() {
+  const client = new Client(dbData);
+
+  await client.connect();
+  return client;
 }
 
 function getSSLValues() {
@@ -36,4 +42,5 @@ function getSSLValues() {
 
 export default Object.freeze({
   query,
+  getNewCLient,
 });
