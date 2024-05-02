@@ -1,4 +1,5 @@
 import database from '../../infra/services/database';
+import crypto, { UUID, randomUUID } from 'crypto';
 
 interface user {
   id: number;
@@ -22,7 +23,7 @@ async function listAllUsers(): Promise<user[]> {
   return userList;
 }
 
-async function listById(id: number): Promise<user> {
+async function listById(id: UUID): Promise<user> {
   validateId(id);
   const response = await database.query({
     text: 'SELECT id, username, email, name, role FROM member WHERE id=$1;',
@@ -47,27 +48,20 @@ async function signUser(user: user): Promise<user> {
   await validateUniqueEmail(user.email);
   validateRole(user.role);
 
+  const id = crypto.randomUUID();
+
   const response = await database.query({
-    text: 'INSERT INTO member (username, email, name, role) VALUES ($1, $2, $3, $4) RETURNING id;',
-    values: [user.username, user.email, user.name, user.role],
+    text: 'INSERT INTO member (username, email, name, role, id) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, email, name, role, created_at, image_url, updated_at;',
+    values: [user.username, user.email, user.name, user.role, id],
   });
-
-  const userId = response.rows[0].id;
-
-  const member = {
-    id: userId,
-    username: user.username,
-    email: user.email,
-    name: user.name,
-    role: user.role,
-  };
-  return member;
+  const userinfo = response.rows[0];
+  return userinfo;
 }
 
-async function deleteUserById(id: number): Promise<user> {
+async function deleteUserById(id: UUID): Promise<user> {
   validateId(id);
   const response = await database.query({
-    text: 'DELETE FROM member WHERE id=$1 RETURNING id, username, email, name, role;',
+    text: 'DELETE FROM member WHERE id=$1 RETURNING id, username, email, name, role, created_at, image_url, updated_at;',
     values: [String(id)],
   });
   if (response.rowCount === 0) {
@@ -103,9 +97,8 @@ async function validateUniqueEmail(email: string): Promise<void> {
   }
 }
 
-function validateId(id: number): void {
-  const parsedId = Number(id);
-  if (!id || isNaN(parsedId)) {
+function validateId(id: UUID): void {
+  if (!id) {
     throw new Error('Invalid or missing ID');
   }
 }
@@ -157,14 +150,16 @@ async function updateUser(user: update_user | any): Promise<any> {
   }
 
   try {
+    const updatedAt = new Date().toISOString();
     await database.query({
-      text: 'UPDATE member SET username=$1, email=$2, name=$3, role=$4 WHERE id=$5;',
+      text: 'UPDATE member SET username=$1, email=$2, name=$3, role=$4, updated_at=$6 WHERE id=$5;',
       values: [
         updatedUsername,
         updatedEmail,
         updatedName,
         updatedRole,
         String(user.id),
+        updatedAt,
       ],
     });
   } catch (err) {

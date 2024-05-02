@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import user from '../models/user';
+import { UUID } from 'crypto';
 
 const useractionsController: Router = express.Router();
 
@@ -19,8 +20,7 @@ useractionsController.get('/list', async (_, res) => {
 
 //get user by ID
 useractionsController.get('/list/:id', async (req, res) => {
-  const userIdResult = decodeURIComponent(req.params.id);
-  const userId = parseInt(userIdResult);
+  const userId: UUID = decodeURIComponent(req.params.id) as UUID;
   try {
     const userList = await user.listById(userId);
     res.status(200).json(userList);
@@ -65,10 +65,9 @@ useractionsController.post('/sign', async (req, res) => {
 
 //delete user by id
 useractionsController.delete('/delete', async (req, res) => {
-  const userIdResult = decodeURIComponent(req.query.id as string);
-  const userId = parseInt(userIdResult);
+  const userIdResult = decodeURIComponent(req.query.id as UUID) as UUID;
   try {
-    const deletedUser = await user.deleteUserById(userId);
+    const deletedUser = await user.deleteUserById(userIdResult);
     res.json({
       deleted_user: deletedUser,
     });

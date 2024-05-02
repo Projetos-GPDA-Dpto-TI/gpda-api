@@ -11,7 +11,7 @@ GET http://localhost:3000/api/user/role/TI
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=1
+DELETE http://localhost:3000/api/user/delete?id=a0b052ea-29dc-4407-be84-92536932f679
 
 ###
 
@@ -19,10 +19,10 @@ POST http://localhost:3000/api/user/sign
 Content-Type: application/json
 
 {
-    "username": "joedoe111",
-    "email": "janedoe1111@example.com",
-    "name": "Jane Doe",
-    "role": "Marketing"
+    "username": "jdoe1",
+    "email": "jdoe@example.com",
+    "name": "John Doe",
+    "role": "TI"
 }
 
 ###
@@ -31,8 +31,8 @@ PUT http://localhost:3000/api/user/update
 Content-Type: application/json
 
 {
-    "id": "1",
-    "role": "Marketing"
+    "id": "470ae07a-cc8a-4923-b5a6-c4af1bc19429",
+    "role": "TI"
 }
 
 ###
