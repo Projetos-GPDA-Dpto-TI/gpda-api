@@ -1,14 +1,16 @@
 import database from '../../infra/services/database';
 import email from '../../infra/services/email';
+import crypto from 'crypto';
 
 //todo: function to validate unique email
 //todo: function to validate email form in client-side
 //todo: function to validate data structure before query
 
 async function signEmail(userEmail: string): Promise<object> {
+  const id = crypto.randomUUID();
   const databaseResponse = await database.query({
-    text: 'INSERT INTO newsletter (email) VALUES ($1) RETURNING email;',
-    values: [userEmail],
+    text: 'INSERT INTO newsletter (id, email) VALUES ($1, $2) RETURNING email;',
+    values: [id, userEmail],
   });
   const parsedResponse = databaseResponse.rows[0].email;
 
@@ -55,6 +57,16 @@ async function getEmailList(): Promise<any> {
   return { email_list: parsedResponse };
 }
 
+async function getEmailUUID(userEmail: string): Promise<any> {
+  const databaseResponse = await database.query({
+    text: 'SELECT id FROM newsletter WHERE email=$1;',
+    values: [userEmail],
+  });
+
+  const parsedResponse = databaseResponse.rows;
+  return { email_UUID: parsedResponse };
+}
+
 async function getUserCount(): Promise<any> {
   const databaseReponse = await database.query(
     'SELECT count(1) as num FROM newsletter;'
@@ -92,4 +104,5 @@ export default Object.freeze({
   getEmailList,
   getUserCount,
   publicateInNewsletter,
+  getEmailUUID,
 });

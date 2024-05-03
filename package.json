@@ -21,7 +21,7 @@
     "migration:down": "node-pg-migrate -m infra/migrations --envPath .env down"
   },
   "repository": "https://github.com/Projeto-Stratum/gpda-api.git",
-  "author": "Nicolas 'grecoww' Greco and Guilherme 'Alkoarism' Longo",
+  "author": "Nicolas 'grecoww' Greco",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.6.2",
