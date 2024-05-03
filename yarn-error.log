@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/share/nvm/versions/node/v20.11.0/bin/node /usr/share/yarn/bin/yarn.js add @types/dotenv-expand -D
+  /usr/local/share/nvm/versions/node/v20.11.0/bin/node /usr/share/yarn/bin/yarn.js add -D @types//bcrypt
 
 PATH: 
-  /usr/local/rvm/gems/ruby-3.2.3/bin:/usr/local/rvm/gems/ruby-3.2.3@global/bin:/usr/local/rvm/rubies/ruby-3.2.3/bin:/vscode/bin/linux-x64/e170252f762678dec6ca2cc69aba1570769a5d39/bin/remote-cli:/home/codespace/.local/bin:/home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:/usr/local/python/current/bin:/usr/local/py-utils/bin:/usr/local/oryx:/usr/local/go/bin:/go/bin:/usr/local/sdkman/bin:/usr/local/sdkman/candidates/java/current/bin:/usr/local/sdkman/candidates/gradle/current/bin:/usr/local/sdkman/candidates/maven/current/bin:/usr/local/sdkman/candidates/ant/current/bin:/usr/local/rvm/gems/default/bin:/usr/local/rvm/gems/default@global/bin:/usr/local/rvm/rubies/default/bin:/usr/local/share/rbenv/bin:/usr/local/php/current/bin:/opt/conda/bin:/usr/local/nvs:/usr/local/share/nvm/versions/node/v20.11.0/bin:/usr/local/hugo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet:/home/codespace/.dotnet/tools:/usr/local/rvm/bin
+  /usr/local/rvm/gems/ruby-3.2.3/bin:/usr/local/rvm/gems/ruby-3.2.3@global/bin:/usr/local/rvm/rubies/ruby-3.2.3/bin:/vscode/bin/linux-x64/b58957e67ee1e712cebf466b995adf4c5307b2bd/bin/remote-cli:/home/codespace/.local/bin:/home/codespace/.dotnet:/home/codespace/nvm/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:/usr/local/python/current/bin:/usr/local/py-utils/bin:/usr/local/oryx:/usr/local/go/bin:/go/bin:/usr/local/sdkman/bin:/usr/local/sdkman/candidates/java/current/bin:/usr/local/sdkman/candidates/gradle/current/bin:/usr/local/sdkman/candidates/maven/current/bin:/usr/local/sdkman/candidates/ant/current/bin:/usr/local/rvm/gems/default/bin:/usr/local/rvm/gems/default@global/bin:/usr/local/rvm/rubies/default/bin:/usr/local/share/rbenv/bin:/usr/local/php/current/bin:/opt/conda/bin:/usr/local/nvs:/usr/local/share/nvm/versions/node/v20.11.0/bin:/usr/local/hugo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet:/home/codespace/.dotnet/tools:/usr/local/rvm/bin
 
 Yarn version: 
   1.22.19
@@ -14,8 +14,8 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fdotenv-expand: Not found
-      at params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66145:18)
+  Error: https://registry.yarnpkg.com/@types%2f/bcrypt: Request "https://registry.yarnpkg.com/@types%2f/bcrypt" returned a 405
+      at params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66154:18)
       at self.callback (/usr/share/yarn/lib/cli.js:140890:22)
       at Request.emit (node:events:518:28)
       at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141862:10)
@@ -35,7 +35,7 @@ npm manifest:
     "scripts": {
       "build": "tsc",
       "start": "yarn build && node dist/src/core/index.js",
-      "dev": " yarn service:up && ts-node-dev --respawn --transpile-only src/core/index.ts",
+      "dev": "yarn service:up && NODE_ENV=development ts-node-dev --respawn --transpile-only src/core/index.ts",
       "lint": "eslint ./src ./test --ext .ts",
       "lint:fix": "eslint ./src ./test --ext .ts --fix",
       "test": "jest --runInBand",
@@ -50,10 +50,9 @@ npm manifest:
       "migration:down": "node-pg-migrate -m infra/migrations --envPath .env down"
     },
     "repository": "https://github.com/Projeto-Stratum/gpda-api.git",
-    "author": "Nicolas 'grecoww' Greco and Guilherme 'Alkoarism' Longo",
+    "author": "Nicolas 'grecoww' Greco",
     "license": "MIT",
     "dependencies": {
-      "@types/bcrypt": "^5.0.2",
       "axios": "^1.6.2",
       "bcrypt": "^5.1.1",
       "body-parser": "^1.20.2",
@@ -812,13 +811,6 @@ Lockfile:
     dependencies:
       "@babel/types" "^7.20.7"
   
-  "@types/bcrypt@^5.0.2":
-    version "5.0.2"
-    resolved "https://registry.npmjs.org/@types/bcrypt/-/bcrypt-5.0.2.tgz"
-    integrity sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==
-    dependencies:
-      "@types/node" "*"
-  
   "@types/body-parser@*":
     version "1.19.4"
     resolved "https://registry.npmjs.org/@types/body-parser/-/body-parser-1.19.4.tgz"
@@ -836,7 +828,7 @@ Lockfile:
   
   "@types/dotenv@^8.2.0":
     version "8.2.0"
-    resolved "https://registry.yarnpkg.com/@types/dotenv/-/dotenv-8.2.0.tgz#5cd64710c3c98e82d9d15844375a33bf1b45d053"
+    resolved "https://registry.npmjs.org/@types/dotenv/-/dotenv-8.2.0.tgz"
     integrity sha512-ylSC9GhfRH7m1EUXBXofhgx4lUWmFeQDINW5oLuS+gxWdfUeW4zJdeVTYVkexEW+e2VUvlZR2kGnGGipAWR7kw==
     dependencies:
       dotenv "*"
@@ -1676,14 +1668,14 @@ Lockfile:
   
   dotenv-expand@^11.0.6:
     version "11.0.6"
-    resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-11.0.6.tgz#f2c840fd924d7c77a94eff98f153331d876882d3"
+    resolved "https://registry.npmjs.org/dotenv-expand/-/dotenv-expand-11.0.6.tgz"
     integrity sha512-8NHi73otpWsZGBSZwwknTXS5pqMOrk9+Ssrna8xCaxkzEpU9OTf9R5ArQGVw03//Zmk9MOwLPng9WwndvpAJ5g==
     dependencies:
       dotenv "^16.4.4"
   
   dotenv@*, dotenv@^16.4.4, dotenv@^16.4.5:
     version "16.4.5"
-    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
+    resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.4.5.tgz"
     integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
   
   dynamic-dedupe@^0.3.0:

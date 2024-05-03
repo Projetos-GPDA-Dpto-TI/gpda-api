@@ -1,5 +1,4 @@
 import database from '../../infra/services/database';
-import newsletter from '../../src/models/newsletter';
 
 beforeAll(cleanDatabase);
 beforeAll(runMigrations);
@@ -17,6 +16,7 @@ async function runMigrations() {
 const userData = {
   username: 'jdoe',
   email: 'jdoe@example.com',
+  password: '1234',
   name: 'John Doe',
   role: 'TI',
 };

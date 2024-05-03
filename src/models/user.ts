@@ -1,10 +1,12 @@
 import database from '../../infra/services/database';
 import crypto, { UUID, randomUUID } from 'crypto';
+import bcrypt from 'bcrypt';
 
 interface user {
   id: number;
   username: string;
   email: string;
+  password: string;
   name: string;
   role: string;
 }
@@ -18,7 +20,9 @@ interface update_user {
 }
 
 async function listAllUsers(): Promise<user[]> {
-  const response = await database.query('SELECT * FROM member;');
+  const response = await database.query(
+    'SELECT id, username, email, name, role, image_url, created_at, updated_at FROM member;'
+  );
   const userList = response.rows;
   return userList;
 }
@@ -49,11 +53,20 @@ async function signUser(user: user): Promise<user> {
   validateRole(user.role);
 
   const id = crypto.randomUUID();
+  const hashedPassword = await bcrypt.hash(user.password, 10);
 
   const response = await database.query({
-    text: 'INSERT INTO member (username, email, name, role, id) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, email, name, role, created_at, image_url, updated_at;',
-    values: [user.username, user.email, user.name, user.role, id],
+    text: 'INSERT INTO member (username, email, password_hash, name, role, id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, username, email, name, role, created_at, image_url, updated_at;',
+    values: [
+      user.username,
+      user.email,
+      hashedPassword,
+      user.name,
+      user.role,
+      id,
+    ],
   });
+
   const userinfo = response.rows[0];
   return userinfo;
 }
@@ -61,7 +74,7 @@ async function signUser(user: user): Promise<user> {
 async function deleteUserById(id: UUID): Promise<user> {
   validateId(id);
   const response = await database.query({
-    text: 'DELETE FROM member WHERE id=$1 RETURNING id, username, email, name, role, created_at, image_url, updated_at;',
+    text: 'DELETE FROM member WHERE id=$1 RETURNING id, username, email, name, role, image_url, created_at, updated_at;',
     values: [String(id)],
   });
   if (response.rowCount === 0) {

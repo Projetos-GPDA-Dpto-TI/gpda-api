@@ -5,9 +5,10 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.sql(`
     CREATE TABLE member (
-      id VARCHAR(50) NOT NULL UNIQUE,
-      username VARCHAR(50) NOT NULL UNIQUE,
-      email VARCHAR(100) NOT NULL UNIQUE,
+      id VARCHAR(60) NOT NULL UNIQUE,
+      username VARCHAR(30) NOT NULL UNIQUE,
+      email VARCHAR(254) NOT NULL UNIQUE,
+      password_hash VARCHAR(60) NOT NULL,
       name VARCHAR(100) NOT NULL,
       image_url VARCHAR(255),
       role VARCHAR(50) NOT NULL,
