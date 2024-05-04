@@ -17,11 +17,24 @@ export class Server {
 
   constructor() {
     this.app = express();
+    this.app.set('view-engine', 'ejs');
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(
+      session({
+        secret: process.env.SESSION_PASSKEY,
+        saveUninitialized: false,
+        resave: false,
+        cookie: {
+          secure: process.env.NODE_ENV === 'development' ? false : true,
+          httpOnly: true,
+          sameSite: 'strict',
+          maxAge: 2 * 60 * 1000,
+        },
+      })
+    );
     this.setupControllers();
     this.PORT = Number(process.env.EXPRESS_PORT);
-    this.app.set('view-engine', 'ejs');
   }
 
   public async init() {
