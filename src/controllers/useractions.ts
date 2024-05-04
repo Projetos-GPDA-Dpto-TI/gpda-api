@@ -53,6 +53,7 @@ useractionsController.post('/sign', async (req, res) => {
       user_signed: member,
     });
   } catch (err) {
+    console.error(err);
     if (err.message.includes('This username has already been taken')) {
       return res.status(400).json({ Error: 'Username already taken' });
     }
@@ -112,10 +113,6 @@ useractionsController.put('/update', async (req, res) => {
     }
     res.sendStatus(500);
   }
-});
-
-useractionsController.all('*', (_, res) => {
-  res.sendStatus(404);
 });
 
 export default useractionsController;
