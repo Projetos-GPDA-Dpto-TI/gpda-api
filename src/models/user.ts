@@ -1,4 +1,4 @@
-import database from '../../infra/services/database';
+import database from '../../infra/database';
 import crypto, { UUID, randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
 

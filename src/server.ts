@@ -3,11 +3,11 @@ import express from 'express';
 import 'dotenv/config';
 import 'dotenv-expand/config';
 
-import useractionsController from '../controllers/useractions';
-import statusController from '../controllers/status';
-import newsletterController from '../controllers/newsletter';
-import migrationsController from '../controllers/migrations';
-import newsController from '../controllers/news';
+import useractionsController from './controllers/useractions';
+import statusController from './controllers/status';
+import newsletterController from './controllers/newsletter';
+import migrationsController from './controllers/migrations';
+import newsController from './controllers/news';
 
 export class Server {
   public readonly app: express.Application;

@@ -1,4 +1,4 @@
-import database from '../../infra/services/database';
+import database from '../../infra/database';
 import newsletter from '../../src/models/newsletter';
 
 beforeAll(cleanDatabase);

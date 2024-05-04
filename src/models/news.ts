@@ -1,5 +1,5 @@
-import database from '../../infra/services/database';
-import email from '../../infra/services/email';
+import database from '../../infra/database';
+import email from '../../infra/email';
 import newsletter from '../models/newsletter';
 
 async function publicateNews(

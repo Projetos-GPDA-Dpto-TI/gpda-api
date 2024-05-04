@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { join } from 'node:path';
-import database from '../../infra/services/database';
+import database from '../../infra/database';
 
 import migrationRunner from 'node-pg-migrate';
 import { Client } from 'pg';
