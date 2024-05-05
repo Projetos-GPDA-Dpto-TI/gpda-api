@@ -11,7 +11,7 @@ GET http://localhost:3000/api/user/role/TI
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=a0b052ea-29dc-4407-be84-92536932f679
+DELETE http://localhost:3000/api/user/delete?id=1eedc784-ed1c-45c1-b391-dd79b3bbc723
 
 ###
 
@@ -32,9 +32,11 @@ PUT http://localhost:3000/api/user/update
 Content-Type: application/json
 
 {
-    "id": "470ae07a-cc8a-4923-b5a6-c4af1bc19429",
-    "role": "TI"
-}
+    "id": "60ad7d8d-958c-4d37-862a-729fa842b13e",
+    "username": "jdoe1",
+    "role": "TI",
+    'email': ' '
+    }
 
 ###
 

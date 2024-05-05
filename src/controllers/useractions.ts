@@ -59,6 +59,10 @@ useractionsController.post('/sign', async (req, res) => {
     if (err.message.includes('Email already being used')) {
       return res.status(400).json({ Error: 'Email already being used' });
     }
+    if (err.message.includes('value too long')) {
+      return res.status(400).json({ Error: 'One or more values are too long' });
+    }
+    console.error(err);
     res.sendStatus(500);
   }
 });
