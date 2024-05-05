@@ -29,7 +29,7 @@ export class Server {
           secure: process.env.NODE_ENV === 'development' ? false : true,
           httpOnly: true,
           sameSite: 'strict',
-          maxAge: 2 * 60 * 1000,
+          maxAge: 24 * 60 * 1000,
         },
       })
     );

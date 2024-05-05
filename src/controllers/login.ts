@@ -50,6 +50,17 @@ loginController.get('/login/password', (_, res) => {
   res.redirect('/login');
 });
 
+loginController.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error logging out' });
+    } else {
+      res.redirect('/');
+    }
+  });
+});
+
 loginController.all('*', (req, res) => {
   res.sendStatus(404);
 });
