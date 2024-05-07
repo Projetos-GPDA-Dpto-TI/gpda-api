@@ -28,7 +28,7 @@ export class Server {
         cookie: {
           secure: process.env.NODE_ENV === 'development' ? false : true,
           httpOnly: true,
-          sameSite: 'strict',
+          sameSite: 'lax',
           maxAge: 24 * 60 * 1000,
         },
       })
