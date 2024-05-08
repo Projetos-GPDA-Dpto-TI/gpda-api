@@ -1,6 +1,8 @@
-import express, { Router } from 'express';
+import express, { Request, Response, Router } from 'express';
 import user from '../models/user';
 import { UUID } from 'crypto';
+import { checkSchema, matchedData, validationResult } from 'express-validator';
+import { signValidationSchema } from '../utils/validationSchemas';
 
 const useractionsController: Router = express.Router();
 
@@ -44,28 +46,35 @@ useractionsController.get('/role/:role', async (req, res) => {
 });
 
 //sign in user
-useractionsController.post('/sign', async (req, res) => {
-  const userinfo = req.body;
-  try {
-    const member = await user.signUser(userinfo);
-    res.status(201).json({
-      message: 'User created',
-      user_signed: member,
-    });
-  } catch (err) {
-    if (err.message.includes('This username has already been taken')) {
-      return res.status(400).json({ Error: 'Username already taken' });
+useractionsController.post(
+  '/sign',
+  checkSchema(signValidationSchema),
+  async (req: Request, res: Response) => {
+    try {
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+        return res.status(400).send({ Error: result.errors[0].msg });
+      }
+
+      const userinfo = matchedData(req) as any; //arumar isso aqui depois tbm
+      const member = await user.signUser(userinfo);
+      res.status(201).json({
+        message: 'User created',
+        user_signed: member,
+      });
+    } catch (err) {
+      if (err.message.includes('This username has already been taken')) {
+        return res.status(400).json({ Error: 'Username already taken' });
+      }
+      if (err.message.includes('Email already being used')) {
+        return res.status(400).json({ Error: 'Email already being used' });
+      }
+      console.error(err);
+      res.sendStatus(500);
     }
-    if (err.message.includes('Email already being used')) {
-      return res.status(400).json({ Error: 'Email already being used' });
-    }
-    if (err.message.includes('value too long')) {
-      return res.status(400).json({ Error: 'One or more values are too long' });
-    }
-    console.error(err);
-    res.sendStatus(500);
   }
-});
+);
 
 //delete user by id
 useractionsController.delete('/delete', async (req, res) => {

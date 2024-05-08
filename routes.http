@@ -11,7 +11,7 @@ GET http://localhost:3000/api/user/role/TI
 
 ###
 
-DELETE http://localhost:3000/api/user/delete?id=1eedc784-ed1c-45c1-b391-dd79b3bbc723
+DELETE http://localhost:3000/api/user/delete?id=6d6c8518-9214-4e10-a1b5-84ae6a11b285
 
 ###
 
@@ -19,7 +19,7 @@ POST http://localhost:3000/api/user/sign
 Content-Type: application/json
 
 {
-    "username": "jdoe",
+    "username": "",
     "email": "jdoe@example.com",
     "password": "1234",
     "name": "John Doe",
