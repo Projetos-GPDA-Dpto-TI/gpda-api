@@ -16,7 +16,7 @@ async function runMigrations() {
 const userData = {
   username: 'jdoe',
   email: 'jdoe@example.com',
-  password: '1234',
+  password: '12345678',
   name: 'John Doe',
   role: 'TI',
 };

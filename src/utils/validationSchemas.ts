@@ -5,18 +5,16 @@ export const signValidationSchema: import('express-validator').Schema = {
     notEmpty: { errorMessage: '`username` não pode ser vazio' },
     isLength: {
       options: {
-        min: 5,
+        min: 3,
         max: 32,
       },
       errorMessage: 'o username precisa estar entre 5 e 32 caracteres',
     },
   },
   name: {
-    trim: true,
     notEmpty: {
       errorMessage: '`nome` não pode ser vazio',
     },
-    isAlpha: true,
   },
   email: {
     isEmail: {

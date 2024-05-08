@@ -52,6 +52,7 @@ useractionsController.post(
   async (req: Request, res: Response) => {
     try {
       const result = validationResult(req);
+      console.log(result);
 
       if (!result.isEmpty()) {
         return res.status(400).send({ Error: result.errors[0].msg });
