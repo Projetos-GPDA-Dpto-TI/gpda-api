@@ -128,7 +128,7 @@ function validateRole(userRole: user['role']): void {
     'Pesquisa',
     'Estruturas',
     'Marketing',
-    'Administração',
+    'Admin',
     'TI',
   ];
 
