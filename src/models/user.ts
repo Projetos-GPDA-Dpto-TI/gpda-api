@@ -17,6 +17,7 @@ interface update_user {
   email?: string;
   name?: string;
   role?: string;
+  password?: string;
 }
 
 async function listAllUsers(): Promise<user[]> {
@@ -38,7 +39,6 @@ async function listById(id: UUID): Promise<user> {
 }
 
 async function listByRole(userRole: string): Promise<user[]> {
-  validateRole(userRole);
   const response = await database.query({
     text: 'SELECT id, username, email, name, role FROM member WHERE role=$1;',
     values: [userRole],
@@ -48,10 +48,6 @@ async function listByRole(userRole: string): Promise<user[]> {
 }
 
 async function signUser(user: user): Promise<user> {
-  await validateUniqueUsername(user.username);
-  await validateUniqueEmail(user.email);
-  validateRole(user.role);
-
   const id = crypto.randomUUID();
   const hashedPassword = await bcrypt.hash(user.password, 10);
 
@@ -117,23 +113,14 @@ function validateId(id: UUID): void {
 }
 
 function validateUpdate(user: update_user): void {
-  if (!user.username && !user.email && !user.name && !user.role) {
+  if (
+    !user.username &&
+    !user.email &&
+    !user.name &&
+    !user.role &&
+    !user.password
+  ) {
     throw new Error('It is required at least 1 modification to update user');
-  }
-}
-
-function validateRole(userRole: user['role']): void {
-  const allowedRoles = [
-    'Eletronica',
-    'Pesquisa',
-    'Estruturas',
-    'Marketing',
-    'Admin',
-    'TI',
-  ];
-
-  if (!allowedRoles.includes(userRole)) {
-    throw new Error(`Invalid or missing Role: ${userRole}`);
   }
 }
 
@@ -142,16 +129,17 @@ async function updateUser(user: update_user | any): Promise<any> {
   validateId(user.id);
   validateUpdate(user);
   if (user.username) await validateUniqueUsername(user.username);
-  if (user.role) validateRole(user.role);
+  if (user.email) await validateUniqueEmail(user.email);
 
-  let updatedUsername, updatedEmail, updatedName, updatedRole;
+  let updatedUsername, updatedEmail, updatedName, updatedRole, updatedPassword;
   let oldUserinfo;
 
   if (
     user.username === undefined ||
     user.email === undefined ||
     user.name === undefined ||
-    user.role === undefined
+    user.role === undefined ||
+    user.password === undefined
   ) {
     oldUserinfo = await listById(user.id);
 
@@ -160,12 +148,14 @@ async function updateUser(user: update_user | any): Promise<any> {
     updatedEmail = user.email === undefined ? oldUserinfo.email : user.email;
     updatedName = user.name === undefined ? oldUserinfo.name : user.name;
     updatedRole = user.role === undefined ? oldUserinfo.role : user.role;
+    updatedPassword =
+      user.password === undefined ? oldUserinfo.password : user.password;
   }
 
   try {
     const updatedAt = new Date().toISOString();
     await database.query({
-      text: 'UPDATE member SET username=$1, email=$2, name=$3, role=$4, updated_at=$6 WHERE id=$5;',
+      text: 'UPDATE member SET username=$1, email=$2, name=$3, role=$4, updated_at=$6, password_hash=$7 WHERE id=$5;',
       values: [
         updatedUsername,
         updatedEmail,
@@ -173,6 +163,7 @@ async function updateUser(user: update_user | any): Promise<any> {
         updatedRole,
         String(user.id),
         updatedAt,
+        updatedPassword,
       ],
     });
   } catch (err) {
@@ -199,4 +190,7 @@ export default Object.freeze({
   signUser,
   deleteUserById,
   updateUser,
+  validateUniqueUsername,
+  validateUniqueEmail,
+  validateUpdate,
 });

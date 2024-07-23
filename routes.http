@@ -32,10 +32,9 @@ PUT http://localhost:3000/api/user/update
 Content-Type: application/json
 
 {
-    "id": "60ad7d8d-958c-4d37-862a-729fa842b13e",
-    "username": "jdoe1",
-    "role": "TI",
-    'email': ' '
+    "id": "157becad-05d6-4c15-85ab-127aa6082a86",
+    "username": "jdoe2",
+    "role": "TI"
     }
 
 ###

@@ -1,6 +1,8 @@
 import express, { Router } from 'express';
 import passport from 'passport';
 import auth from '../models/auth';
+import { checkSchema, matchedData, validationResult } from 'express-validator';
+import { loginValidationSchema } from '../utils/loginSchema';
 
 const loginController: Router = express.Router();
 
@@ -8,15 +10,20 @@ loginController.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
+// prettier-ignore
 loginController.get('/login', auth.checkNotAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
 
 // prettier-ignore
-loginController.post('/login/auth', passport.authenticate('local', {
+loginController.post('/login/auth', checkSchema(loginValidationSchema, ['body']), (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) return res.status(400).send({ Error: errors.errors[0].msg });
+  passport.authenticate('local', {
   successRedirect: '/dashboard',
   failureRedirect: '/login'
-}))
+})
+})
 
 loginController.get('/logout', auth.checkAuthenticated, (req, res) => {
   req.logout((err) => {

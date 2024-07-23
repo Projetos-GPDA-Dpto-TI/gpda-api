@@ -1,8 +1,9 @@
 import express, { Request, Response, Router } from 'express';
 import user from '../models/user';
 import { UUID } from 'crypto';
-import { checkSchema, matchedData, validationResult } from 'express-validator';
-import { signValidationSchema } from '../utils/validationSchemas';
+import { checkSchema, validationResult } from 'express-validator';
+import { signupValidationSchema } from '../utils/signupSchema';
+import { roleValidationSchema } from '../utils/rolecheckSchema';
 
 const useractionsController: Router = express.Router();
 
@@ -35,7 +36,10 @@ useractionsController.get('/list/:id', async (req, res) => {
 });
 
 //get user by GPDA role
-useractionsController.get('/role/:role', async (req, res) => {
+//prettier-ignore
+useractionsController.get('/role/:role', checkSchema(roleValidationSchema), async (req: Request, res: Response) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) return res.status(400).send({ Error: errors.errors[0].msg });
   const userRole = decodeURIComponent(req.params.role) as string;
   try {
     const userList = await user.listByRole(userRole);
@@ -46,32 +50,19 @@ useractionsController.get('/role/:role', async (req, res) => {
 });
 
 //sign in user
-useractionsController.post(
-  '/sign',
-  checkSchema(signValidationSchema),
-  async (req: Request, res: Response) => {
+//prettier-ignore
+useractionsController.post('/sign', checkSchema(signupValidationSchema, ['body']), async (req: Request, res: Response) => {
     try {
-      const result = validationResult(req);
-      console.log(result);
-
-      if (!result.isEmpty()) {
-        return res.status(400).send({ Error: result.errors[0].msg });
-      }
-
-      const userinfo = matchedData(req) as any; //arumar isso aqui depois tbm
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) return res.status(400).send({ Error: errors.errors[0].msg });
+      const userinfo = req.body
       const member = await user.signUser(userinfo);
       res.status(201).json({
         message: 'User created',
         user_signed: member,
       });
     } catch (err) {
-      if (err.message.includes('This username has already been taken')) {
-        return res.status(400).json({ Error: 'Username already taken' });
-      }
-      if (err.message.includes('Email already being used')) {
-        return res.status(400).json({ Error: 'Email already being used' });
-      }
-      console.error(err);
+      console.error(err)
       res.sendStatus(500);
     }
   }
