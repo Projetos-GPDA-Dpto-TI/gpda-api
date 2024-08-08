@@ -1,18 +1,14 @@
 import database from '../../infra/database';
+import orchestrator from '../orchestrator';
 import newsletter from '../../src/models/newsletter';
 
-beforeAll(cleanDatabase);
-beforeAll(runMigrations);
-
-async function cleanDatabase() {
+beforeAll(async () => {
+  await orchestrator.waitForAllServices();
   await database.query('DROP schema public cascade; CREATE schema public;');
-}
-
-async function runMigrations() {
   await fetch('http://localhost:3000/api/migrations', {
     method: 'POST',
   });
-}
+});
 
 const emailServiceUrl = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 

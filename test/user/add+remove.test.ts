@@ -1,17 +1,13 @@
 import database from '../../infra/database';
+import orchestrator from '../orchestrator';
 
-beforeAll(cleanDatabase);
-beforeAll(runMigrations);
-
-async function cleanDatabase() {
+beforeAll(async () => {
+  await orchestrator.waitForAllServices();
   await database.query('DROP schema public cascade; CREATE schema public;');
-}
-
-async function runMigrations() {
   await fetch('http://localhost:3000/api/migrations', {
     method: 'POST',
   });
-}
+});
 
 const userData = {
   username: 'jdoe',
