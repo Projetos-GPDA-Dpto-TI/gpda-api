@@ -10,7 +10,7 @@ const dbData = {
   ssl: getSSLValues(),
 };
 
-async function query(queryObject, a) {
+async function query(queryObject) {
   let client;
   try {
     client = await getNewCLient();
