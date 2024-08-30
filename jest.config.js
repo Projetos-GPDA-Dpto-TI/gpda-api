@@ -1,7 +1,4 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  setupFiles: ['dotenv/config', 'dotenv-expand/config'],
+export default {
   testTimeout: 60000,
+  setupFiles: ["dotenv/config"],
 };
