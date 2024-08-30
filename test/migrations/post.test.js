@@ -10,7 +10,7 @@ async function databaseMigrationsRows() {
   try {
     const response = await database.query("SELECT * FROM pgmigrations");
     return response.rowCount;
-  } catch (err) {
+  } catch (_err) {
     return undefined;
   }
 }

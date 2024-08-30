@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
 import auth from "../models/auth.js";
-import { checkSchema, matchedData, validationResult } from "express-validator";
+import { checkSchema, validationResult } from "express-validator";
 import { loginValidationSchema } from "../utils/loginSchema.js";
 
 const loginController = express.Router();

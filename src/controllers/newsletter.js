@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express from "express";
 import newsletter from "../models/newsletter.js";
 
 const newsletterController = express.Router();

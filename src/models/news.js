@@ -45,8 +45,8 @@ async function notificateInNewsletter(
   title,
   description,
   bodyText,
-  ownerId,
-  imageURL,
+  //ownerId,
+  //imageURL,
 ) {
   try {
     const { email_list: emailList } = await newsletter.getEmailList();

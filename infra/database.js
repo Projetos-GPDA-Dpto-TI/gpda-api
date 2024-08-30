@@ -10,21 +10,17 @@ const dbData = {
   ssl: getSSLValues(),
 };
 
-//manually set the parametrized query object type below
-async function query(queryObject) {
+async function query(queryObject, a) {
   let client;
   try {
     client = await getNewCLient();
     const res = await client.query(queryObject);
     return res;
+    // eslint-disable-next-line no-useless-catch
   } catch (err) {
     throw err;
   } finally {
-    try {
-      await client.end();
-    } catch (err) {
-      console.error(err);
-    }
+    await client.end();
   }
 }
 

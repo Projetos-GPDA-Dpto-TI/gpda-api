@@ -80,8 +80,8 @@ async function publicateInNewsletter(
   title,
   description,
   bodyText,
-  ownerId,
-  imageURL,
+  //ownerId,
+  //imageURL,
 ) {
   try {
     const { email_list: emailList } = await getEmailList();

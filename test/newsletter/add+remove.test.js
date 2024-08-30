@@ -13,7 +13,7 @@ async function retrieveEmail() {
   try {
     const response = await database.query("SELECT * from newsletter;");
     return response.rows[0].email;
-  } catch (err) {
+  } catch (_err) {
     return undefined;
   }
 }

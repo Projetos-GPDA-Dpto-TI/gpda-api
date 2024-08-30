@@ -44,6 +44,7 @@ useractionsController.get('/role/:role', checkSchema(roleValidationSchema), asyn
     const userList = await user.listByRole(userRole);
     res.status(200).json(userList);
   } catch (err) {
+    console.error(err)
     res.sendStatus(500);
   }
 });
