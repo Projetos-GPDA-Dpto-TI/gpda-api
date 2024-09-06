@@ -54,6 +54,5 @@ export class Server {
     this.app.use("/api/news", newsController);
     this.app.use("/", loginController);
   }
-    console.log("oi");
 
 }
