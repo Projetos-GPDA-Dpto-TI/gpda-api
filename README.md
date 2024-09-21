@@ -12,7 +12,7 @@ Está é a API do website da GPDA, todas as rotinas do back-end são implementad
 
 ## Ferramentas necessárias para o projeto
 
-- Runtime: [Nodejs (lts/iron)](https://nodejs.org/en)
+- Runtime: [Nodejs (versão original do projeto: `lts/iron`)](https://nodejs.org/en)
 - Conteinerização: [Docker](https://www.docker.com/) v27 e [Docker Compose](https://docs.docker.com/engine/reference/commandline/compose/) v2
 - Sistema Operacional: Recomendados usar linux (não é garantido o bom funcionamento em ambientes windows) dica: usar codespaces caso nao tenha linux instalado em sua máquina
 
