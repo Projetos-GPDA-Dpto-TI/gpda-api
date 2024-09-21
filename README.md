@@ -19,7 +19,7 @@ Está é a API do website da GPDA, todas as rotinas do back-end são implementad
 
 ## Rodando o projeto
 
-Com as ferramentas necessárias instaladas, clone o repositório
+Com as ferramentas necessárias instaladas:
 
 ```sh
 # Clone o repositório
