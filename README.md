@@ -1,6 +1,7 @@
 # GPDA-API
 
 Está é a API do website da GPDA, todas as rotinas do back-end são implementadas em forma de API REST aqui
+- O repo adota o padrão de commits do [`conventional commmits`](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
 ## Tecnologias Utilizadas
 
@@ -35,6 +36,22 @@ npm test
 
 # De `start` no projeto
 npm run dev
+```
+
+## Como adicionar novas features ao projeto
+
+```sh
+# Crie uma nova branch com o nome da sua feature
+git checkout -b [nome da branch]
+
+# Implemente suas features + commit + push
+git add -A && git commit -m '[msg do commit seguindo o padrão do `conventional commits`]' && git push -u origin [nome da branch]
+
+# Abra um pull request dentro do GitHub
+
+# Verfique se as rotinas do CI estão passando e espere por revisão do seu código
+
+# Depois disso, seu PR estará pronto para um merge na main
 ```
 
 ## Arquivo json que esquematiza todas as rotas da API (abra o arquivo com o `Insomnia`):
