@@ -28,7 +28,7 @@ git clone https://github.com/Projeto-Stratum/gpda-api.git
 # Vá para o diretório do repositório
 cd gpda-api
 
-# Instale as dependências no diretório raiz
+# Instale as dependências
 npm i
 
 # Certifique-se que os testes automatizados estäo rodando corretamente
