@@ -11,7 +11,7 @@ Está é a API do website da GPDA, todas as rotinas do back-end são implementad
 - Eslint (linting)
 - Jest (testes automatizados)
 
-## Ferramentas necessárias para o projeto
+## Ferramentas necessárias para rodar o projeto
 
 - Runtime: [Nodejs](https://nodejs.org/en), (versão original do projeto: `lts/iron`)
 - Conteinerização: [Docker](https://www.docker.com/) v27 e [Docker Compose](https://docs.docker.com/engine/reference/commandline/compose/) v2
