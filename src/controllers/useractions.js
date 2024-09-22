@@ -11,21 +11,16 @@ useractionsController.get("/status", async (_, res) => {
 });
 
 //get all members
-useractionsController.get("/list", async (_, res) => {
+useractionsController.get("/list", async (req, res) => {
   try {
-    const userList = await user.listAllUsers();
-    res.status(200).json(userList);
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-//get user by ID
-useractionsController.get("/list/:id", async (req, res) => {
-  const userId = decodeURIComponent(req.params.id);
-  try {
-    const userList = await user.listById(userId);
-    res.status(200).json(userList);
+    const userId = decodeURIComponent(req.query.id);
+    if (req.query.id) {
+      const userList = await user.listById(userId);
+      res.status(200).json(userList);
+    } else {
+      const userList = await user.listAllUsers();
+      res.status(200).json(userList);
+    }
   } catch (err) {
     if (err.message.includes("Invalid ID")) {
       return res.status(400).json({ Error: "Invalid ID" });
@@ -69,8 +64,8 @@ useractionsController.post('/sign', checkSchema(signupValidationSchema, ['body']
 );
 
 //delete user by id
-useractionsController.delete("/delete", async (req, res) => {
-  const userIdResult = decodeURIComponent(req.query.id);
+useractionsController.delete("/delete/:id", async (req, res) => {
+  const userIdResult = decodeURIComponent(req.params.id);
   try {
     const deletedUser = await user.deleteUserById(userIdResult);
     res.json({
@@ -117,10 +112,6 @@ useractionsController.put("/update", async (req, res) => {
     }
     res.sendStatus(500);
   }
-});
-
-useractionsController.all("*", (_, res) => {
-  res.sendStatus(404);
 });
 
 export default useractionsController;
