@@ -119,8 +119,4 @@ useractionsController.put("/update", async (req, res) => {
   }
 });
 
-useractionsController.all("*", (_, res) => {
-  res.sendStatus(404);
-});
-
 export default useractionsController;

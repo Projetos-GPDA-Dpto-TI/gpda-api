@@ -52,6 +52,6 @@ export class Server {
     this.app.use("/api/newsletter", newsletterController);
     this.app.use("/api", migrationsController);
     this.app.use("/api/news", newsController);
-    this.app.use("/", loginController);
+    this.app.use("/api/user", loginController);
   }
 }

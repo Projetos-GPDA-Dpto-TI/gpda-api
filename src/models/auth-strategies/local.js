@@ -1,4 +1,4 @@
-import { Strategy } from "passport-local";
+import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import db from "../../../infra/database.js";
 import user from "./../user.js";
@@ -15,13 +15,15 @@ passport.deserializeUser(async (id, done) => {
     const parsedUser = await user.listById(id);
     done(null, parsedUser);
   } catch (error) {
-    done(error, null);
+    done(error, false);
   }
 });
 
 // prettier-ignore
-passport.use('local',
-  new Strategy({usernameField: 'email'}, async (email, password, done) => {
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+},
+  async (email, password, done) => {
     console.log('email is:', email)
     console.log('password is:', password)
     try {
@@ -29,7 +31,7 @@ passport.use('local',
       if (!parsedUser || !(await bcrypt.compare(password, parsedUser.password_hash))) throw new Error('Invalid Credentials')
       done(null, parsedUser)
     } catch (error) {
-      done(error, null)
+      done(null, false, {message: error.message})
     }
   })
 )

@@ -6,24 +6,21 @@ import { loginValidationSchema } from "../utils/loginSchema.js";
 
 const loginController = express.Router();
 
-loginController.get("/", (req, res) => {
-  res.render("index.ejs");
-});
-
-// prettier-ignore
-loginController.get('/login', auth.checkNotAuthenticated, (req, res) => {
-  res.render('login.ejs');
-});
-
-// prettier-ignore
-loginController.post('/login/auth', checkSchema(loginValidationSchema, ['body']), (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) return res.status(400).send({ Error: errors.errors[0].msg });
-  passport.authenticate('local', {
-  successRedirect: '/dashboard',
-  failureRedirect: '/login'
-})
-})
+loginController.post(
+  "/login",
+  auth.checkNotAuthenticated,
+  checkSchema(loginValidationSchema, ["body"]),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).send({ Error: errors.errors[0].msg });
+    next();
+  },
+  passport.authenticate("local"),
+  (req, res) => {
+    res.sendStatus(200);
+  },
+);
 
 loginController.get("/logout", auth.checkAuthenticated, (req, res) => {
   req.logout((err) => {
@@ -32,19 +29,7 @@ loginController.get("/logout", auth.checkAuthenticated, (req, res) => {
   });
 });
 
-loginController.get("/register", auth.checkNotAuthenticated, (req, res) => {
-  res.render("register.ejs");
-});
-
-loginController.get("/admin", auth.checkAdminAuthenticated, (req, res) => {
-  res.render("admin.ejs", { name: req.user.name });
-});
-
-loginController.get("/dashboard", auth.checkAuthenticated, (req, res) => {
-  res.render("dashboard.ejs", { name: req.user.name });
-});
-
-loginController.all("*", (req, res) => {
+loginController.all("*", (_, res) => {
   res.sendStatus(404);
 });
 
