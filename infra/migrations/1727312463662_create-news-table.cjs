@@ -11,8 +11,7 @@ exports.up = (pgm) => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       status VARCHAR(20) DEFAULT 'published',
-      image_url VARCHAR(255),
-      views INTEGER DEFAULT 0
+      image_url VARCHAR(255)
     );
   `);
 };

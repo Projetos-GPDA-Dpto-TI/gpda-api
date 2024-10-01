@@ -20,7 +20,6 @@ const userData = {
 test("Add and delete a single user", async () => {
   const list1Response = await fetch("http://localhost:3000/api/user/list");
   const list1responseBody = await list1Response.json();
-
   expect(list1responseBody).toStrictEqual([]);
 
   const signResponse = await fetch("http://localhost:3000/api/user/sign", {
@@ -38,7 +37,6 @@ test("Add and delete a single user", async () => {
 
   const list2Response = await fetch("http://localhost:3000/api/user/list");
   const list2ResponseBody = await list2Response.json();
-
   expect(list2ResponseBody).toStrictEqual([userobtainedData]);
 
   const deleteResponse = await fetch(
