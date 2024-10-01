@@ -42,7 +42,7 @@ test("Add and delete a single user", async () => {
   expect(list2ResponseBody).toStrictEqual([userobtainedData]);
 
   const deleteResponse = await fetch(
-    `http://localhost:3000/api/user/delete?id=${userobtainedData.id}`,
+    `http://localhost:3000/api/user/delete/${userobtainedData.id}`,
     {
       method: "DELETE",
       headers: {
