@@ -5,67 +5,89 @@ import newsletter from "../models/newsletter.js";
 async function publicateNews(
   title,
   description,
-  body_text,
-  owner_id,
-  imageURL,
+  content,
+  authorId,
+  status,
+  imageUrl,
 ) {
   const databaseResponse = await database.query({
-    text: "INSERT INTO news (title, description, body_text, owner_id, imageURL) VALUES $1, $2, $3, $4, $5 RETURNING title, description, body_text, owner_id, imageURL;",
-    values: [title, description, body_text, owner_id, imageURL],
+    text: "INSERT INTO news (title, description, content, author_id, status, image_url) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+    values: [title, description, content, authorId, status, imageUrl],
   });
+
   const parsedResponse = databaseResponse.rows[0];
 
-  return { uploaded_new: parsedResponse };
+  return parsedResponse;
 }
 
-async function deleteNews(new_id) {
+async function deleteNew(newId) {
   const databaseResponse = await database.query({
-    text: "DELETE FROM news WHERE id = $1 RETURNING title;",
-    values: [new_id],
+    text: "DELETE FROM news WHERE id = $1 RETURNING *;",
+    values: [newId],
   });
 
   const parsedResponse = databaseResponse.rows[0];
 
-  return { deleted_news: parsedResponse };
+  return parsedResponse;
 }
 
-async function listNewsByOwner(owner_id) {
+async function listNewsById(newId) {
   const databaseResponse = await database.query({
-    text: "SELECT FROM news WHERE owner_id = $1;",
-    values: [owner_id],
+    text: "SELECT FROM news WHERE id = $1 AND status='published';",
+    values: [newId],
   });
 
   const parsedResponse = databaseResponse.rows[0];
 
-  return { owner_id: owner_id, news_by_owner: parsedResponse };
+  return parsedResponse;
 }
 
+async function viewNews() {
+  const databaseResponse = await database.query(
+    "SELECT * FROM news WHERE status='published';",
+  );
+
+  const parsedResponse = databaseResponse.rows;
+
+  return parsedResponse;
+}
+
+async function archiveNew(newId) {
+  await database.query({
+    text: "UPDATE news SET status='archived' WHERE id=$1;",
+    values: [newId],
+  });
+}
+
+async function undraftNew(newId) {
+  await database.query({
+    text: "UPDATE news SET status='public' WHERE id=$1;",
+    values: [newId],
+  });
+}
 //todo: how news will be shown on email??
-async function notificateInNewsletter(
-  title,
-  description,
-  bodyText,
-  //ownerId,
-  //imageURL,
-) {
+async function notificateInNewsletter() {
   try {
     const { email_list: emailList } = await newsletter.getEmailList();
     for (const emailAddress of emailList) {
       await email.send({
         from: { name: "GPDA", address: "suporte@gpdaufabc.com.br" },
         to: emailAddress.email,
-        subject: "GPDA Newsletter: " + title,
-        text: `${title}\n\n${description}\n\n${bodyText}`,
+        subject: "Nova notícia publicada no site da GPDA",
+        text: "Confira a notícia no link: https://www.gpdaufabc.tech/noticias",
       });
     }
   } catch (error) {
-    console.error("Error sending newsletter:", error);
+    console.error("Error sending on newsletter:", error);
   }
 }
 
 export default Object.freeze({
   publicateNews,
-  deleteNews,
-  listNewsByOwner,
+  deleteNew,
+  archiveNew,
+  viewNews,
+  listNewsById,
   notificateInNewsletter,
+  undraftNew,
 });

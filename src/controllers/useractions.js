@@ -17,8 +17,8 @@ useractionsController.get(
   auth.checkAdminAuthenticated,
   async (req, res) => {
     try {
-      const userId = decodeURIComponent(req.query.id);
       if (req.query.id) {
+        const userId = decodeURIComponent(req.query.id);
         const userList = await user.listById(userId);
         res.status(200).json(userList);
       } else {

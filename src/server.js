@@ -6,13 +6,14 @@ import path from "path";
 import "dotenv/config";
 import "dotenv-expand/config";
 
+import "./models/auth-strategies/local.js";
+
 import useractionsController from "./controllers/useractions.js";
 import statusController from "./controllers/status.js";
 import newsletterController from "./controllers/newsletter.js";
 import migrationsController from "./controllers/migrations.js";
 import newsController from "./controllers/news.js";
 import loginController from "./controllers/login.js";
-import "./models/auth-strategies/local.js";
 
 export class Server {
   constructor() {
