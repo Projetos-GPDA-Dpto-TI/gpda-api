@@ -15,7 +15,6 @@ const newSampleMock = {
   content:
     "Um novo estudo da NASA revelou informações intrigantes sobre exoplanetas que podem suportar vida. As descobertas foram feitas utilizando telescópios de última geração e técnicas de observação avançadas, proporcionando uma nova perspectiva sobre a astrobiologia.",
   author_id: "123456",
-  status: "published",
   image_url: "https://example.com/imagem.jpg",
 };
 

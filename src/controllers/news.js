@@ -49,7 +49,18 @@ newsController.post("/draft", auth.checkAuthenticated, async (req, res) => {
   res.sendStatus(200).json(uploadedNewReponse);
 });
 
-newsController.put(
+newsController.patch(
+  "/undraft/:id",
+  auth.checkAuthenticated,
+  async (req, res) => {
+    const newId = req.params.id;
+    await news.undraftNew(newId);
+
+    res.sendStatus(200);
+  },
+);
+
+newsController.patch(
   "/archive/:id",
   auth.checkAuthenticated,
   async (req, res) => {

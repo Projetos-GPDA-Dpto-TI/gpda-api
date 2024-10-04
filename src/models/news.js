@@ -33,7 +33,7 @@ async function deleteNew(newId) {
 
 async function listNewsById(newId) {
   const databaseResponse = await database.query({
-    text: "SELECT FROM news WHERE id = $1;",
+    text: "SELECT FROM news WHERE id = $1 AND status='published';",
     values: [newId],
   });
 
@@ -43,7 +43,9 @@ async function listNewsById(newId) {
 }
 
 async function viewNews() {
-  const databaseResponse = await database.query("SELECT * FROM news;");
+  const databaseResponse = await database.query(
+    "SELECT * FROM news WHERE status='published';",
+  );
 
   const parsedResponse = databaseResponse.rows;
 
@@ -57,6 +59,12 @@ async function archiveNew(newId) {
   });
 }
 
+async function undraftNew(newId) {
+  await database.query({
+    text: "UPDATE news SET status='public' WHERE id=$1;",
+    values: [newId],
+  });
+}
 //todo: how news will be shown on email??
 async function notificateInNewsletter() {
   try {
@@ -81,4 +89,5 @@ export default Object.freeze({
   viewNews,
   listNewsById,
   notificateInNewsletter,
+  undraftNew,
 });
