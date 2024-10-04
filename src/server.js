@@ -17,10 +17,7 @@ import loginController from "./controllers/login.js";
 
 export class Server {
   constructor() {
-    const __dirname = import.meta.dirname;
     this.app = express();
-    this.app.set("views", path.join(__dirname, "/views"));
-    this.app.set("view-engine", "ejs");
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(

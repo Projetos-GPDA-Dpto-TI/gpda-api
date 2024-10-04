@@ -5,8 +5,7 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "yarn build && node dist/src/index.js",
+    "start": "npm run migration:up && NODE_ENV=production node ./src/index.js",
     "setup": "npm run service:up && npm run wait-for-postgres && npm run migration:up && node src/index.js",
     "dev": "NODE_ENV=development npm run setup",
     "lint:prettier:check": "prettier --check .",
