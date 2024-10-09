@@ -25,7 +25,7 @@ export class Server {
         saveUninitialized: false,
         resave: false,
         cookie: {
-          secure: process.env.NODE_ENV === "development" ? false : true,
+          secure: process.env.NODE_ENV === "development" ? false : false,
           httpOnly: true,
           sameSite: "lax",
           maxAge: 24 * 60 * 1000,
