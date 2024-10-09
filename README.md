@@ -55,10 +55,7 @@ git add -A && git commit -m '[msg do commit seguindo o padrão do `conventional 
 ```
 
 ## Arquivo json que esquematiza todas as rotas da API (abra o arquivo com o `Insomnia`):
-
-`em construção...`
-
-
+Download do arquivo: [Insomnia_2024-10-04.json](https://github.com/user-attachments/files/17319814/Insomnia_2024-10-04.json)
 
 Quaisquer dúvidas, fico a disposição,
 
