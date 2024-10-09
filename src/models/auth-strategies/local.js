@@ -5,12 +5,10 @@ import user from "./../user.js";
 import passport from "passport";
 
 passport.serializeUser((user, done) => {
-  console.log("serializing:", user);
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  console.log("deserializing id:", id);
   try {
     const parsedUser = await user.listById(id);
     done(null, parsedUser);
@@ -24,8 +22,6 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
 },
   async (email, password, done) => {
-    console.log('email is:', email)
-    console.log('password is:', password)
     try {
       const parsedUser = await getuserbyEmail(email)
       if (!parsedUser || !(await bcrypt.compare(password, parsedUser.password_hash))) throw new Error('Invalid Credentials')

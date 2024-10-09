@@ -51,7 +51,7 @@ useractionsController.get('/role/:role', auth.checkAdminAuthenticated, checkSche
 
 //sign in user
 //prettier-ignore
-useractionsController.post('/sign', checkSchema(signupValidationSchema, ['body']), async (req, res) => {
+useractionsController.post('/sign', auth.checkAdminAuthenticated, checkSchema(signupValidationSchema, ['body']), async (req, res) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) return res.status(400).send({ Error: errors.errors[0].msg });

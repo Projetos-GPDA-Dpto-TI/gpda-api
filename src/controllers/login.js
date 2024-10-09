@@ -17,7 +17,7 @@ loginController.post(
     next();
   },
   passport.authenticate("local"),
-  (req, res) => {
+  (_, res) => {
     res.sendStatus(200);
   },
 );

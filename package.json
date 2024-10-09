@@ -5,8 +5,8 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "npm run migration:up && NODE_ENV=production node ./src/index.js",
-    "setup": "npm run service:up && npm run wait-for-postgres && npm run migration:up && node src/index.js",
+    "start": "npm run migration:up && npm run setup-admin-user && NODE_ENV=production node src/index.js",
+    "setup": "npm run service:up && npm run wait-for-postgres && node src/index.js",
     "dev": "NODE_ENV=development npm run setup",
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
@@ -21,6 +21,7 @@
     "migration:create": "node-pg-migrate -m infra/migrations create",
     "migration:up": "node-pg-migrate -m infra/migrations --envPath .env up",
     "migration:down": "node-pg-migrate -m infra/migrations --envPath .env down",
+    "setup-admin-user": "node infra/scripts/admin.js",
     "wait-for-postgres": "node infra/scripts/wait-for-postgres.js",
     "prepare": "husky",
     "commit": "cz"

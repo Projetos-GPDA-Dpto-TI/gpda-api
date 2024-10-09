@@ -19,5 +19,5 @@ function checkAdminAuthenticated(req, res, next) {
 export default Object.freeze({
   checkAuthenticated,
   checkNotAuthenticated,
-  checkAdminAuthenticated,
+  checkAdminAuthenticated
 });

@@ -1,7 +1,6 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import path from "path";
 
 import "dotenv/config";
 import "dotenv-expand/config";
