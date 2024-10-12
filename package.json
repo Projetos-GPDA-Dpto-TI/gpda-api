@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run migration:up && npm run setup-admin-user && NODE_ENV=production node src/index.js",
-    "setup": "npm run service:up && npm run wait-for-postgres && node src/index.js",
+    "setup": "npm run service:up && npm run wait-for-postgres && npm run migration:up && node src/index.js",
     "dev": "NODE_ENV=development npm run setup",
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
