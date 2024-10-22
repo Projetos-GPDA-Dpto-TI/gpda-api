@@ -13,6 +13,7 @@ import newsletterController from "./controllers/newsletter.js";
 import migrationsController from "./controllers/migrations.js";
 import newsController from "./controllers/news.js";
 import loginController from "./controllers/login.js";
+import webhookController from "./controllers/webhook.js";
 
 export class Server {
   constructor() {
@@ -50,5 +51,6 @@ export class Server {
     this.app.use("/api", migrationsController);
     this.app.use("/api/news", newsController);
     this.app.use("/api/user", loginController);
+    this.app.use("/api/webhook", webhookController);
   }
 }
