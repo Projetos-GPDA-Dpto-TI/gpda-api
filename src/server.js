@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from "cors";
 
 import "dotenv/config";
 import "dotenv-expand/config";
@@ -18,17 +19,24 @@ import webhookController from "./controllers/webhook.js";
 export class Server {
   constructor() {
     this.app = express();
+    this.app.set("trust proxy", 1);
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(
+      cors({
+        credentials: true,
+        origin: true,
+      }),
+    );
     this.app.use(
       session({
         secret: process.env.SESSION_PASSKEY,
         saveUninitialized: false,
         resave: false,
         cookie: {
-          secure: process.env.NODE_ENV === "development" ? false : false,
+          secure: process.env.NODE_ENV === "development" ? false : true,
           httpOnly: true,
-          sameSite: "lax",
+          sameSite: "none",
           maxAge: 24 * 60 * 1000,
         },
       }),
