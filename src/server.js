@@ -15,6 +15,7 @@ import migrationsController from "./controllers/migrations.js";
 import newsController from "./controllers/news.js";
 import loginController from "./controllers/login.js";
 import webhookController from "./controllers/webhook.js";
+import storeController from "./controllers/store.js"
 
 export class Server {
   constructor() {
@@ -60,5 +61,6 @@ export class Server {
     this.app.use("/api/news", newsController);
     this.app.use("/api/user", loginController);
     this.app.use("/api/webhook", webhookController);
+    this.app.use("/api/store", storeController);
   }
 }
