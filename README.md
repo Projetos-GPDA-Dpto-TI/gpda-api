@@ -60,3 +60,15 @@ Download do arquivo: [Insomnia_2024-10-04.json](https://github.com/user-attachme
 Quaisquer dúvidas, fico a disposição,
 
 Ass: Nicolas \`grecoww\` Greco
+
+
+## Como adicionar novas tabelas ao projeto ou alterar tabelas existentes
+Dentro da pasta infra/migrations/ estão todos os arquivos que esquematizam as tabelas do projeto.
+- Para criar uma nova tabela, rode o comendo "npm run migration:create -- create_NOMEDATABELA", substituindo o NOMEDATABELA pelo nome da tabela, usando _ como "espaços"
+
+Para rodar o banco do Docker, siga as seguintes instruções:
+- Utilizando o CMD, vá até a pasta infra (usando cd infra a partir da pasta geral)
+- Rode o comando "docker compose up -d" --> isso roda o ambiente docker
+- Após o OK no CMD, rode o comando "npm run migration:up", isso executará os códigos da pasta infra/migrations/
+- Após o OK, já é possível encontrar as tabelas feitas no container. Para acessar o Container, siga o passo a passo comum do docker (docker exec -it nomedocontainer bash; etc)
+OBS: último comando do Docker depende de informações que estão no .env, não trackeado no repositório remoto.
