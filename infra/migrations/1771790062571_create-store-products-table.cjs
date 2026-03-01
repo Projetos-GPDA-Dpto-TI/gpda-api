@@ -8,8 +8,8 @@ exports.up = (pgm) => {
         short_description VARCHAR(200) NOT NULL,
         long_description VARCHAR(600),
         full_price DECIMAL(6, 2),
-        qtt_in_stock SMALLINT
-        
+        qtt_in_stock SMALLINT,
+        is_deleted BOOLEAN DEFAULT FALSE
       );
     `);
 };
